@@ -1,0 +1,12 @@
+query Articles {
+  articles {
+    id
+    author
+    title
+    content
+    markdown
+    createdAt
+    updatedAt
+    published
+  }
+}

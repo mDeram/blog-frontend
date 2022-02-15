@@ -1,0 +1,3 @@
+mutation SetPublishedArticle($id: Int!, $published: Boolean!) {
+    setPublishArticle(id: $id, published: $published)
+}

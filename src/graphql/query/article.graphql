@@ -1,0 +1,12 @@
+query Article($id: Int!) {
+  article(id: $id) {
+    id
+    author
+    title
+    content
+    markdown
+    createdAt
+    updatedAt
+    published
+  }
+}
