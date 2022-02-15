@@ -37,7 +37,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
                 ? <button onClick={_ => setPublish({ id, published: false })}>Unpublish</button>
                 : <button onClick={_ => setPublish({ id, published: true })}>Publish</button>
             }
-            <button onClick={_ => router.push(`/editor/${id}`)}>Edit</button>
+            <button onClick={_ => router.push(`/editor/article/${id}`)}>Edit</button>
             <button onClick={_ => deleteArticle(id)}>Delete</button>
         </div>
     )

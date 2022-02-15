@@ -20,12 +20,23 @@ export type Scalars = {
 export type Article = {
   __typename?: 'Article';
   author: Scalars['String'];
+  categories: Array<Category>;
   content: Scalars['String'];
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
   markdown: Scalars['String'];
   published: Scalars['Boolean'];
+  slug: Scalars['String'];
   title: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type Category = {
+  __typename?: 'Category';
+  articles: Array<Article>;
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
 
@@ -40,7 +51,7 @@ export type Mutation = {
 
 export type MutationCreateArticleArgs = {
   author: Scalars['String'];
-  content: Scalars['String'];
+  markdown: Scalars['String'];
   title: Scalars['String'];
 };
 
@@ -58,20 +69,27 @@ export type MutationSetPublishArticleArgs = {
 
 export type MutationUpdateArticleArgs = {
   author: Scalars['String'];
-  content: Scalars['String'];
   id: Scalars['Int'];
+  markdown: Scalars['String'];
   title: Scalars['String'];
 };
 
 export type Query = {
   __typename?: 'Query';
   article?: Maybe<Article>;
+  articleBySlug?: Maybe<Article>;
   articles: Array<Article>;
+  categories: Array<Category>;
 };
 
 
 export type QueryArticleArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryArticleBySlugArgs = {
+  slug: Scalars['String'];
 };
 
 export type DeleteArticleMutationVariables = Exact<{
@@ -94,7 +112,7 @@ export type ArticleQueryVariables = Exact<{
 }>;
 
 
-export type ArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: number, author: string, title: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean } | null };
+export type ArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean } | null };
 
 export type ArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -126,6 +144,7 @@ export const ArticleDocument = gql`
     id
     author
     title
+    slug
     content
     markdown
     createdAt

@@ -47,7 +47,7 @@ const ConfirmDeletePopup: React.FC<ConfirmDeletePopupProps> = ({
     return (
         <div>
             <h2>Delete {name}?</h2>
-            <p>To delete {name} type in <strong>"{name}"</strong> and press delete.</p>
+            <p>To delete {name} type in <strong>&quot;{name}&quot;</strong> and press delete.</p>
             <input
                 type="text"
                 value={value}

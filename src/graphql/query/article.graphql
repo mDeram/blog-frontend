@@ -3,6 +3,7 @@ query Article($id: Int!) {
     id
     author
     title
+    slug
     content
     markdown
     createdAt
