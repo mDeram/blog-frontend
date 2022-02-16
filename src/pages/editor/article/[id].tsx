@@ -6,6 +6,7 @@ import ArticleEditor from "../../../components/ArticleEditor";
 import ArticlePreviewer from "../../../components/ArticlePreviewer";
 import { Article, ArticleQuery, useArticleQuery, useUpdateArticleMutation } from "../../../generated/graphql";
 import { marked } from "marked";
+import NotificationManager, { NotificationStore } from "../../../components/Notification";
 
 //TODO SSR
 
@@ -47,11 +48,27 @@ const EditArticle: NextPage<{ id: number }> = ({ id }) => {
             markdown: article.markdown
         });
 
-        //TODO handle error
+        if (result.data) {
+            NotificationStore.NotificationPush({
+                type: "success",
+                message: `Article ${article.title} as been saved`,
+                duration: 1000
+            });
+        } else {
+            NotificationStore.NotificationPush({
+                type: "error",
+                message: `
+                    Could not save article ${article.title}
+                    Error: ${result.error}
+                `,
+                duration: 2500
+            });
+        }
     }
 
     return (
         <div>
+            <NotificationManager />
             <h1>Edit Article</h1>
             <div>
                 {article &&
