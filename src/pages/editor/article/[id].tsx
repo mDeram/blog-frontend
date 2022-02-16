@@ -50,18 +50,18 @@ const EditArticle: NextPage<{ id: number }> = ({ id }) => {
 
         if (result.data) {
             NotificationStore.NotificationPush({
-                type: "success",
+                type: "Success",
                 message: `Article ${article.title} as been saved`,
-                duration: 1000
+                duration: 2000
             });
         } else {
             NotificationStore.NotificationPush({
-                type: "error",
+                type: "Error",
                 message: `
                     Could not save article ${article.title}
                     Error: ${result.error}
                 `,
-                duration: 2500
+                duration: 3000
             });
         }
     }

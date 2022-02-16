@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
+import styles from "../styles/Notification.module.scss";
 
 interface Notification {
-    type: "error" | "success";
+    type: "Error" | "Success";
     message: string;
     duration: number;
 }
@@ -46,11 +47,11 @@ const NotificationManager: React.FC = () => {
     }
 
     return (
-        <div>
+        <div className={styles.notificationManager}>
             {notifications.map(notification =>
-                <div key={notification.key}>
-                    <p>{notification.type}</p>
-                    <p>{notification.message}</p>
+                <div className={styles[notification.type.toLowerCase()]} key={notification.key}>
+                    <p className={styles.type}>{notification.type}</p>
+                    <p className={styles.message}>{notification.message}</p>
                 </div>
             )}
         </div>

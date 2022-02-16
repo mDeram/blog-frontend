@@ -1,0 +1,28 @@
+.notificationManager {
+    position: absolute;
+    width: 15vw;
+    color: white;
+    top: 15px;
+    right: 15px;
+
+    div {
+        padding: 10px 15px 10px 15px;
+        margin-bottom: 15px;
+        border-radius: 3px;
+
+        .type {
+            font-weight: bold;
+            margin: 0px;
+            margin-bottom: 5px;
+        }
+        .message {
+            margin: 0px;
+        }
+    }
+    .error {
+        background-color: #DC3545;
+    }
+    .success {
+        background-color: #29A746;
+    }
+}
