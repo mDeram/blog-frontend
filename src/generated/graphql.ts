@@ -107,6 +107,16 @@ export type SetPublishedArticleMutationVariables = Exact<{
 
 export type SetPublishedArticleMutation = { __typename?: 'Mutation', setPublishArticle: boolean };
 
+export type UpdateArticleMutationVariables = Exact<{
+  id: Scalars['Int'];
+  author: Scalars['String'];
+  title: Scalars['String'];
+  markdown: Scalars['String'];
+}>;
+
+
+export type UpdateArticleMutation = { __typename?: 'Mutation', updateArticle: boolean };
+
 export type ArticleQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
@@ -137,6 +147,15 @@ export const SetPublishedArticleDocument = gql`
 
 export function useSetPublishedArticleMutation() {
   return Urql.useMutation<SetPublishedArticleMutation, SetPublishedArticleMutationVariables>(SetPublishedArticleDocument);
+};
+export const UpdateArticleDocument = gql`
+    mutation UpdateArticle($id: Int!, $author: String!, $title: String!, $markdown: String!) {
+  updateArticle(id: $id, author: $author, title: $title, markdown: $markdown)
+}
+    `;
+
+export function useUpdateArticleMutation() {
+  return Urql.useMutation<UpdateArticleMutation, UpdateArticleMutationVariables>(UpdateArticleDocument);
 };
 export const ArticleDocument = gql`
     query Article($id: Int!) {

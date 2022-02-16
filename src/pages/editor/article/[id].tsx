@@ -1,14 +1,17 @@
 import { GetServerSideProps, NextPage } from "next";
 import router from "next/router";
 import React, { useEffect, useState } from "react";
+import { customSlugify } from "../../../utils/customSlugify";
 import ArticleEditor from "../../../components/ArticleEditor";
 import ArticlePreviewer from "../../../components/ArticlePreviewer";
-import { Article, ArticleQuery, useArticleQuery } from "../../../generated/graphql";
+import { Article, ArticleQuery, useArticleQuery, useUpdateArticleMutation } from "../../../generated/graphql";
+import { marked } from "marked";
 
 //TODO SSR
 
 const EditArticle: NextPage<{ id: number }> = ({ id }) => {
     const [{ data, fetching }] = useArticleQuery({ variables: { id } });
+    const [,updateArticle] = useUpdateArticleMutation();
     const [article, setArticle] = useState<Article | null>(null);
 
     useEffect(() => {
@@ -21,11 +24,30 @@ const EditArticle: NextPage<{ id: number }> = ({ id }) => {
     function handleArticleChange(changes: Partial<Article>) {
         setArticle(article => {
             if (!article) return null;
+
+            if (changes.title)
+                changes.slug = customSlugify(changes.title);
+            if (changes.markdown)
+                changes.content = marked.parse(changes.markdown);
+
             return {
                 ...article,
                 ...changes
             }
         });
+    }
+
+    async function handleSave() {
+        if (!article) return;
+
+        const result = await updateArticle({
+            id: article.id,
+            author:  article.author,
+            title: article.title,
+            markdown: article.markdown
+        });
+
+        //TODO handle error
     }
 
     return (
@@ -44,6 +66,7 @@ const EditArticle: NextPage<{ id: number }> = ({ id }) => {
                     <p>Loading article</p>
                 </div>
             }
+            <button onClick={_ => handleSave()}>Save</button>
         </div>
     );
 }

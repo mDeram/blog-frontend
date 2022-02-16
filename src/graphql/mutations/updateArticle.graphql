@@ -1,0 +1,3 @@
+mutation UpdateArticle($id: Int!, $author: String!, $title: String!, $markdown: String!) {
+	updateArticle(id: $id, author: $author, title: $title, markdown: $markdown)
+}

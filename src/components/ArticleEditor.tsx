@@ -1,21 +1,44 @@
 import React from "react";
-import { Article } from "src/generated/graphql";
+import { Article } from "../generated/graphql";
 
 interface ArticleEditorProps {
     handleChange: (change: Partial<Article>) => void;
     title: string;
+    author: string;
     markdown: string;
+    slug: string;
 }
 
 const ArticleEditor: React.FC<ArticleEditorProps> = ({
     handleChange,
     title,
-    markdown
+    author,
+    markdown,
+    slug
 }) => {
     return (
         <div>
-            <h1>{title}</h1>
-            <p>{markdown}</p>
+            <label htmlFor="title">Title</label>
+            <input
+                type="text"
+                id="title"
+                value={title}
+                onChange={e => handleChange({ title: e.target.value })}
+            />
+            <p>The slug will be: {slug}</p>
+            <label htmlFor="author">Author</label>
+            <input
+                type="text"
+                id="author"
+                value={author}
+                onChange={e => handleChange({ author: e.target.value })}
+            />
+            <label htmlFor="markdown">Markdown</label>
+            <textarea
+                id="markdown"
+                value={markdown}
+                onChange={e => handleChange({ markdown: e.target.value })}
+            />
         </div>
     )
 }
