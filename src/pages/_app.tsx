@@ -1,5 +1,5 @@
 import { createClient, Provider } from 'urql'
-import '../styles/globals.css'
+import '../styles/globals.scss'
 
 const client = createClient({
     url: "http://localhost:7000/graphql",
