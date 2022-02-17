@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
-import { NotificationStore } from "../components/Notification";
-import { useSetPublishedArticleMutation } from "../generated/graphql";
+import Publish from "../components/Publish";
 
 interface ArticleCardProps {
     id: number;
@@ -22,26 +21,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
     deleteArticle,
     published,
 }) => {
-    const [,setPublish] = useSetPublishedArticleMutation();
     const router = useRouter();
-
-    async function handlePublish(value: boolean) {
-        const result = await setPublish({ id, published: value });
-        const success = !!result.data?.setPublishArticle;
-        if (success) {
-            NotificationStore.NotificationPush({
-                type: "Success",
-                message: `Article as been ${value ? "published" : "unpublished"}`,
-                duration: 2000
-            });
-        } else {
-            NotificationStore.NotificationPush({
-                type: "Error",
-                message: `Article could not be ${value ? "published" : "unpublished"} try again later...`,
-                duration: 3000
-            });
-        }
-    }
 
     return (
         <div>
@@ -50,10 +30,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
             <p>Updated on {updatedAt}</p>
             <p>{content.slice(0, 50)}</p>
             {/* Preview popup */}
-            {published
-                ? <button onClick={_ => handlePublish(false)}>Unpublish</button>
-                : <button onClick={_ => handlePublish(true)}>Publish</button>
-            }
+            <Publish id={id} published={published} />
             <button onClick={_ => router.push(`/editor/article/${id}`)}>Edit</button>
             <button onClick={_ => deleteArticle(id)}>Delete</button>
         </div>
