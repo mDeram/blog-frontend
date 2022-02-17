@@ -1,43 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useArticlesQuery, useDeleteArticleMutation } from "../../generated/graphql";
 import ArticleCard from "../../components/ArticleCard";
-import ConfirmDeletePopup from "../../components/ConfirmDeletePopup";
+import ConfirmDeleteArticlePopup from "../../components/ConfirmDeleteArticlePopup";
+import Link from "next/link";
 
 const Editor: React.FC = () => {
     const [{ data, fetching }] = useArticlesQuery();
-    const [popup, setPopup] = useState({ show: false, id: 0 });
+    const [popup, setPopup] = useState({ show: false, id: 0, name: "" });
     const [,deleteArticle] = useDeleteArticleMutation();
 
-    async function handleDeleteArticle(): Promise<boolean> {
-        const result = await deleteArticle({ id: popup.id});
+    useEffect(() => {
+        hidePopup();
+    }, [data])
+
+    function hidePopup() {
+        setPopup(prev => {
+            return {
+                ...prev,
+                show: false
+            }
+        })
+    }
+
+    async function handleDeleteArticle(id: number): Promise<boolean> {
+        const result = await deleteArticle({ id });
         const isArticleDeleted = !!result.data?.deleteArticle;
 
         return isArticleDeleted;
     }
 
-    function showPopup() {
-        if (!popup.show) return;
-        const article = data?.articles.find(article => article.id === popup.id);
-        if (!article) return;
-
-        return (
-            <ConfirmDeletePopup
-                name={article.title}
-                closeCb={() => setPopup({ show: false, id: 0 })}
-                deleteCb={() => handleDeleteArticle()}
-            />
-        );
-    }
-
     return (
         <div>
             <h1>Articles Editor</h1>
-            <button>+</button>
+            <Link href="/editor/create"><a>+</a></Link>
             <div>
                 {data?.articles.map(article =>
                     <ArticleCard
                         key={article.id}
-                        deleteArticle={(id: number) => setPopup({ show: true, id })}
+                        deleteArticle={(id: number) => setPopup({ show: true, id, name: article.title })}
                         { ...article }
                     />
                 )}
@@ -47,7 +47,12 @@ const Editor: React.FC = () => {
                     <p>Loading articles...</p>
                 </div>
             }
-            {showPopup()}
+            <ConfirmDeleteArticlePopup
+                show={popup.show}
+                name={popup.name}
+                closeCb={() => hidePopup()}
+                deleteCb={() => handleDeleteArticle(popup.id)}
+            />
         </div>
     );
 }

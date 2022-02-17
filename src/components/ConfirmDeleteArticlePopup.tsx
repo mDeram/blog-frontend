@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 import { NotificationProps, NotificationStore } from "../components/Notification";
 
-interface ConfirmDeletePopupProps {
+interface ConfirmDeleteArticlePopupProps {
     closeCb: () => void;
     deleteCb: () => Promise<boolean>;
     name: string;
+    show: boolean
 }
 
-const ConfirmDeletePopup: React.FC<ConfirmDeletePopupProps> = ({
+const ConfirmDeleteArticlePopup: React.FC<ConfirmDeleteArticlePopupProps> = ({
     closeCb,
     deleteCb,
-    name
+    name,
+    show
 }) => {
     const [value, setValue] = useState("");
+
+    if (!show) return null;
 
     function setError(message: NotificationProps["message"]) {
         NotificationStore.NotificationPush({
@@ -28,7 +32,13 @@ const ConfirmDeletePopup: React.FC<ConfirmDeletePopupProps> = ({
             return;
         }
         const isDeleted = await deleteCb();
-        if (!isDeleted) {
+        if (isDeleted) {
+            NotificationStore.NotificationPush({
+                type: "Success",
+                message: <p><strong>{name}</strong> has been deleted</p>,
+                duration: 2500
+            });
+        } else {
             setError(<p>Could not delete <strong>{name}</strong> please try again later...</p>);
             return;
         }
@@ -51,4 +61,4 @@ const ConfirmDeletePopup: React.FC<ConfirmDeletePopupProps> = ({
     )
 }
 
-export default ConfirmDeletePopup;
+export default ConfirmDeleteArticlePopup;

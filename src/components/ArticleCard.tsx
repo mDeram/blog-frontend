@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import Link from "next/link";
 import React from "react";
 import Publish from "../components/Publish";
 
@@ -21,8 +21,6 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
     deleteArticle,
     published,
 }) => {
-    const router = useRouter();
-
     return (
         <div>
             <h2>{title}</h2>
@@ -31,7 +29,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
             <p>{content.slice(0, 50)}</p>
             {/* Preview popup */}
             <Publish id={id} published={published} />
-            <button onClick={_ => router.push(`/editor/article/${id}`)}>Edit</button>
+            <Link href={`/editor/article/${id}`}><a>Edit</a></Link>
             <button onClick={_ => deleteArticle(id)}>Delete</button>
         </div>
     )
