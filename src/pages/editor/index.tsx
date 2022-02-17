@@ -10,9 +10,9 @@ const Editor: React.FC = () => {
 
     async function handleDeleteArticle(): Promise<boolean> {
         const result = await deleteArticle({ id: popup.id});
-        const isArticleDeleted = result.data?.deleteArticle;
+        const isArticleDeleted = !!result.data?.deleteArticle;
 
-        return !!isArticleDeleted;
+        return isArticleDeleted;
     }
 
     function showPopup() {
