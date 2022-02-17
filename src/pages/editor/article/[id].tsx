@@ -1,12 +1,11 @@
 import { GetServerSideProps, NextPage } from "next";
-import router from "next/router";
 import React, { useEffect, useState } from "react";
 import { customSlugify } from "../../../utils/customSlugify";
 import ArticleEditor from "../../../components/ArticleEditor";
 import ArticlePreviewer from "../../../components/ArticlePreviewer";
-import { Article, ArticleQuery, useArticleQuery, useUpdateArticleMutation } from "../../../generated/graphql";
+import { Article, useArticleQuery, useUpdateArticleMutation } from "../../../generated/graphql";
 import { marked } from "marked";
-import { NotificationStore } from "../../../components/Notification";
+import { pushNotificationError, pushNotificationSuccess } from "../../../utils/defaultNotifications";
 
 //TODO SSR
 
@@ -49,20 +48,14 @@ const EditArticle: NextPage<{ id: number }> = ({ id }) => {
         });
 
         if (result.data) {
-            NotificationStore.NotificationPush({
-                type: "Success",
-                message: `Article ${article.title} as been saved`,
-                duration: 2000
-            });
+            pushNotificationSuccess(
+                `Article ${article.title} as been saved`
+            );
         } else {
-            NotificationStore.NotificationPush({
-                type: "Error",
-                message: `
-                    Could not save article ${article.title}
-                    Error: ${result.error}
-                `,
-                duration: 3000
-            });
+            pushNotificationError(`
+                Could not save article ${article.title}
+                Error: ${result.error}
+            `);
         }
     }
 

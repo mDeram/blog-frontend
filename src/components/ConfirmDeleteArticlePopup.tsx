@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NotificationProps, NotificationStore } from "../components/Notification";
+import { pushNotificationError, pushNotificationSuccess } from "../utils/defaultNotifications";
 
 interface ConfirmDeleteArticlePopupProps {
     closeCb: () => void;
@@ -18,31 +18,23 @@ const ConfirmDeleteArticlePopup: React.FC<ConfirmDeleteArticlePopupProps> = ({
 
     if (!show) return null;
 
-    function setError(message: NotificationProps["message"]) {
-        NotificationStore.NotificationPush({
-            type: "Error",
-            message,
-            duration: 3000
-        });
-    }
-
     async function handleDelete() {
         if (value !== name) {
-            setError(<p>Name <strong>{value}</strong> is different than <strong>{name}</strong></p>);
-            return;
-        }
-        const isDeleted = await deleteCb();
-        if (isDeleted) {
-            NotificationStore.NotificationPush({
-                type: "Success",
-                message: <p><strong>{name}</strong> has been deleted</p>,
-                duration: 2500
-            });
-        } else {
-            setError(<p>Could not delete <strong>{name}</strong> please try again later...</p>);
+            pushNotificationError(
+                <p>Name <strong>{value}</strong> is different than <strong>{name}</strong></p>
+            );
             return;
         }
 
+        const isDeleted = await deleteCb();
+        if (!isDeleted) {
+            pushNotificationError(
+                <p>Could not delete <strong>{name}</strong> please try again later...</p>
+            );
+            return;
+        }
+
+        pushNotificationSuccess(<p><strong>{name}</strong> has been deleted</p>);
         closeCb();
     }
 

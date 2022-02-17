@@ -15,7 +15,7 @@ function wrongUsageAlert(data: NotificationProps) {
 }
 
 const NotificationStore = {
-    NotificationPush: wrongUsageAlert
+    push: wrongUsageAlert
 }
 
 const Notification: React.FC<NotificationProps> = ({
@@ -39,7 +39,7 @@ const NotificationManager: React.FC = () => {
     const key = useRef(0);
 
     useEffect(() => {
-        NotificationStore.NotificationPush = handleNotificationPush;
+        NotificationStore.push = handleNotificationPush;
     }, []);
 
     function deleteNotification(toDelete: NotificationProps) {

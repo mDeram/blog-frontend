@@ -1,4 +1,4 @@
-import { NotificationStore } from "../components/Notification";
+import { pushNotificationError, pushNotificationSuccess } from "../utils/defaultNotifications";
 import { useSetPublishedArticleMutation } from "../generated/graphql";
 
 interface PublishProps {
@@ -16,17 +16,13 @@ const Publish: React.FC<PublishProps> = ({
         const result = await setPublished({ id, published: value });
         const success = !!result.data?.setPublishArticle;
         if (success) {
-            NotificationStore.NotificationPush({
-                type: "Success",
-                message: `Article as been ${value ? "published" : "unpublished"}`,
-                duration: 2000
-            });
+            pushNotificationSuccess(
+                `Article as been ${value ? "published" : "unpublished"}`
+            );
         } else {
-            NotificationStore.NotificationPush({
-                type: "Error",
-                message: `Article could not be ${value ? "published" : "unpublished"} try again later...`,
-                duration: 3000
-            });
+            pushNotificationError(
+                `Article could not be ${value ? "published" : "unpublished"} try again later...`
+            );
         }
     }
 
