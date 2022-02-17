@@ -6,7 +6,7 @@ import ArticleEditor from "../../../components/ArticleEditor";
 import ArticlePreviewer from "../../../components/ArticlePreviewer";
 import { Article, ArticleQuery, useArticleQuery, useUpdateArticleMutation } from "../../../generated/graphql";
 import { marked } from "marked";
-import NotificationManager, { NotificationStore } from "../../../components/Notification";
+import { NotificationStore } from "../../../components/Notification";
 
 //TODO SSR
 
@@ -68,7 +68,6 @@ const EditArticle: NextPage<{ id: number }> = ({ id }) => {
 
     return (
         <div>
-            <NotificationManager />
             <h1>Edit Article</h1>
             <div>
                 {article &&

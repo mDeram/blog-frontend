@@ -1,3 +1,4 @@
+import NotificationManager from '../components/Notification';
 import { createClient, Provider } from 'urql'
 import '../styles/globals.scss'
 
@@ -11,6 +12,7 @@ const client = createClient({
 function MyApp({ Component, pageProps }: any) {
     return (
         <Provider value={client}>
+            <NotificationManager />
             <Component {...pageProps} />
         </Provider>
     );
