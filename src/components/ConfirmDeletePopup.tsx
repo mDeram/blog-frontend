@@ -1,15 +1,10 @@
 import React, { useState } from "react";
+import { NotificationProps, NotificationStore } from "../components/Notification";
 
 interface ConfirmDeletePopupProps {
     closeCb: () => void;
     deleteCb: () => Promise<boolean>;
     name: string;
-}
-
-const enum ConfirmDeletePopupError {
-    None,
-    Input,
-    DeleteFail
 }
 
 const ConfirmDeletePopup: React.FC<ConfirmDeletePopupProps> = ({
@@ -18,30 +13,27 @@ const ConfirmDeletePopup: React.FC<ConfirmDeletePopupProps> = ({
     name
 }) => {
     const [value, setValue] = useState("");
-    const [error, setError] = useState(ConfirmDeletePopupError.None);
+
+    function setError(message: NotificationProps["message"]) {
+        NotificationStore.NotificationPush({
+            type: "Error",
+            message,
+            duration: 3000
+        });
+    }
 
     async function handleDelete() {
         if (value !== name) {
-            setError(ConfirmDeletePopupError.Input)
+            setError(<p>Name <strong>{value}</strong> is different than <strong>{name}</strong></p>);
             return;
         }
         const isDeleted = await deleteCb();
         if (!isDeleted) {
-            setError(ConfirmDeletePopupError.DeleteFail);
+            setError(<p>Could not delete <strong>{name}</strong> please try again later...</p>);
             return;
         }
 
         closeCb();
-    }
-
-    function showError(): null | JSX.Element {
-        const errors = {
-            [ConfirmDeletePopupError.None]: null,
-            [ConfirmDeletePopupError.Input]: <p>Name <strong>{value}</strong> is different than <strong>{name}</strong></p>,
-            [ConfirmDeletePopupError.DeleteFail]: <p>Could not delete <strong>{name}</strong> please try again later...</p>
-        }
-
-        return errors[error];
     }
 
     return (
@@ -54,11 +46,7 @@ const ConfirmDeletePopup: React.FC<ConfirmDeletePopupProps> = ({
                 onChange={e => setValue(e.target.value)}
             />
             <button onClick={_ => closeCb()}>Cancel</button>
-            <button
-                onClick={_ => handleDelete()}
-                onBlur={_ => setError(ConfirmDeletePopupError.None)}
-            >Delete</button>
-            {showError()}
+            <button onClick={_ => handleDelete()}>Delete</button>
         </div>
     )
 }
