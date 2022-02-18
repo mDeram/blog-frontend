@@ -22,8 +22,6 @@ const Notification: React.FC<NotificationProps> = ({
     type,
     message
 }) => {
-    console.log(message);
-    console.log(<p>yooo</p>);
     return (
         <div className={styles[type.toLowerCase()]}>
             <p className={styles.type}>{type}</p>

@@ -1,21 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useOuterClick from "../hooks/useOuterClick";
 import styles from "../styles/Popup.module.scss";
 
 export interface PopupProps {
-    trigger: JSX.Element | ((open: () => void) => JSX.Element)
-    closeOnDocumentClick?: boolean
-    hideTriggerOnShow?: boolean
+    trigger?: JSX.Element | ((open: () => void) => JSX.Element | void);
+    closeOnDocumentClick?: boolean;
+    hideTriggerOnShow?: boolean;
+    openRef?: React.MutableRefObject<Function | undefined>;
+    closeRef?: React.MutableRefObject<Function | undefined>;
 }
 
 const Popup: React.FC<PopupProps> = ({
     children,
     trigger,
     closeOnDocumentClick = true,
-    hideTriggerOnShow = false
+    hideTriggerOnShow = false,
+    openRef,
+    closeRef
 }) => {
     const [show, setShow] = useState(false);
     const ref = useOuterClick(handleSetHide, closeOnDocumentClick ? show : false);
+
+    useEffect(() => {
+        if (openRef) openRef.current = handleSetShow;
+        if (closeRef) closeRef.current = handleSetHide;
+        return () => {
+            if (openRef) openRef.current = undefined;
+            if (closeRef) closeRef.current = undefined;
+        }
+    }, []);
 
     function handleSetShow() {
         setShow(true);
@@ -26,6 +39,7 @@ const Popup: React.FC<PopupProps> = ({
     }
 
     function renderTrigger() {
+        if (!trigger) return;
         if (typeof trigger === "function")
             return trigger(handleSetShow);
         return React.cloneElement(trigger, { onClick: handleSetShow });

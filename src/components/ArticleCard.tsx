@@ -9,7 +9,7 @@ interface ArticleCardProps {
     updatedAt: Date;
     content: string;
     published: boolean;
-    deleteArticle: (id: number) => void;
+    deleteArticle: () => void;
 }
 
 const ArticleCard: React.FC<ArticleCardProps> = ({
@@ -30,7 +30,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
             {/* Preview popup */}
             <Publish id={id} published={published} />
             <Link href={`/editor/article/${id}`}><a>Edit</a></Link>
-            <button onClick={_ => deleteArticle(id)}>Delete</button>
+            <button onClick={deleteArticle}>Delete</button>
         </div>
     )
 }

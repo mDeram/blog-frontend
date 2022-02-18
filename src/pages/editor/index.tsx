@@ -1,25 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useArticlesQuery, useDeleteArticleMutation } from "../../generated/graphql";
 import ArticleCard from "../../components/ArticleCard";
-import ConfirmDeleteArticlePopup from "../../components/ConfirmDeleteArticlePopup";
+import DeleteArticle from "../../components/ConfirmDeleteArticlePopup";
 import Link from "next/link";
 
 const Editor: React.FC = () => {
     const [{ data, fetching }] = useArticlesQuery();
-    const [popup, setPopup] = useState({ show: false, id: 0, name: "" });
+    const [popup, setPopup] = useState({ id: 0, name: "" });
     const [,deleteArticle] = useDeleteArticleMutation();
+    const closePopupRef = useRef<Function>();
+    const openPopupRef = useRef<Function>();
 
     useEffect(() => {
-        hidePopup();
+        // Is that useless?
+        closePopupRef.current && closePopupRef.current();
     }, [data])
 
-    function hidePopup() {
-        setPopup(prev => {
-            return {
-                ...prev,
-                show: false
-            }
-        })
+    function handleTryDeleteArticle(id: number, name: string) {
+        setPopup({ id, name });
+        openPopupRef.current && openPopupRef.current();
     }
 
     async function handleDeleteArticle(id: number): Promise<boolean> {
@@ -37,7 +36,7 @@ const Editor: React.FC = () => {
                 {data?.articles.map(article =>
                     <ArticleCard
                         key={article.id}
-                        deleteArticle={(id: number) => setPopup({ show: true, id, name: article.title })}
+                        deleteArticle={() => handleTryDeleteArticle(article.id, article.title)}
                         { ...article }
                     />
                 )}
@@ -47,11 +46,11 @@ const Editor: React.FC = () => {
                     <p>Loading articles...</p>
                 </div>
             }
-            <ConfirmDeleteArticlePopup
-                show={popup.show}
+            <DeleteArticle
                 name={popup.name}
-                closeCb={() => hidePopup()}
                 deleteCb={() => handleDeleteArticle(popup.id)}
+                openRef={openPopupRef}
+                closeRef={closePopupRef}
             />
         </div>
     );
