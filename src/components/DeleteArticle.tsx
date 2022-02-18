@@ -47,7 +47,7 @@ const DeleteArticle: React.FC<DeleteArticleProps> = ({
                     value={value}
                     onChange={e => setValue(e.target.value)}
                 />
-                <button onClick={close}>Cancel</button>
+                <button onClick={() => closeRef.current!()}>Cancel</button>
                 <button onClick={handleDelete}>Delete</button>
             </div>
         </Popup>

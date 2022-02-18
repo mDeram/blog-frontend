@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useArticlesQuery, useDeleteArticleMutation } from "../../generated/graphql";
 import ArticleCard from "../../components/ArticleCard";
-import DeleteArticle from "../../components/ConfirmDeleteArticlePopup";
+import DeleteArticle from "../../components/DeleteArticle";
 import Link from "next/link";
 
 const Editor: React.FC = () => {
