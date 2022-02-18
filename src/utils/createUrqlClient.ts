@@ -1,6 +1,6 @@
 import { createClient, dedupExchange, fetchExchange } from "urql";
 import { cacheExchange } from "@urql/exchange-graphcache";
-import { ArticlesDocument, ArticlesQuery } from "../generated/graphql";
+import { Article, ArticlesDocument, ArticlesQuery } from "../generated/graphql";
 import schema from "../generated/graphql";
 
 const urqlClient = createClient({
@@ -12,14 +12,48 @@ const urqlClient = createClient({
         dedupExchange,
         cacheExchange({
             schema,
+            /*resolvers: {
+                Query: {
+                    article: (parent, args, cache, info) => {
+                        const articles = cache.inspectFields("Query")
+                            .find(field => field.fieldName === "articles");
+                        console.log(articles);
+                        const art = cache.resolve("Query", "articles");
+                        console.log(art);
+                            //?.find((article: Article) => article.id === args.id);
+                        if (!articles) return null;
+                        return null;
+                    }
+                }
+            },*/
             updates: {
                 Mutation: {
+                    createArticle: (_result, args, cache, info) => {
+                        cache.updateQuery<ArticlesQuery>({ query: ArticlesDocument }, data => {
+                            if (!_result.createArticle) return data;
+
+                            data?.articles.push(_result.createArticle as Article);
+                            return data;
+                        });
+                    },
+                    updateArticle: (_result, args, cache, info) => {
+                        cache.invalidate("Query", "article", { id: args.id });
+                    },
                     deleteArticle: (_result, args, cache, info) => {
                         cache.updateQuery<ArticlesQuery>({ query: ArticlesDocument }, data => {
                             if (!_result.deleteArticle) return data;
 
                             const result = data?.articles.filter(article => article.id !== args.id);
                             return { articles: result } as ArticlesQuery;
+                        });
+                    },
+                    setPublishArticle: (_result, args, cache, info) => {
+                        cache.updateQuery<ArticlesQuery>({ query: ArticlesDocument }, data => {
+                            if (!_result.setPublishArticle) return data;
+
+                            const result = data?.articles.find(article => article.id === args.id) as Article;
+                            result.published = args.published as boolean;
+                            return data;
                         });
                     }
                 }
