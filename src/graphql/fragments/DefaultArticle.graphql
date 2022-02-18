@@ -1,0 +1,11 @@
+fragment DefaultArticle on Article {
+    id
+    author
+    title
+    slug
+    content
+    markdown
+    createdAt
+    updatedAt
+    published
+}

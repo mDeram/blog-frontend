@@ -1,13 +1,5 @@
 query Article($id: Int!) {
-  article(id: $id) {
-    id
-    author
-    title
-    slug
-    content
-    markdown
-    createdAt
-    updatedAt
-    published
-  }
+    article(id: $id) {
+        ...DefaultArticle
+    }
 }

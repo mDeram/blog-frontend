@@ -25,7 +25,7 @@ const EditArticle: NextPage<{ id: number }> = ({ id }) => {
             {data?.article &&
                 <ArticleEditor
                     saveArticle={handleSaveArticle}
-                    initialArticle={{ ...data.article, categories: [] }}
+                    initialArticle={data.article}
                 />
             }
             {fetching &&

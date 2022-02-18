@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { customSlugify } from "../utils/customSlugify";
 import ArticleEditorForm from "../components/ArticleEditorForm";
-import ArticlePreviewer from "../components/ArticlePreviewer";
-import { Article } from "../generated/graphql";
+import ArticleComponent from "../components/Article";
+import { Article, DefaultArticleFragment } from "../generated/graphql";
 import { marked } from "marked";
 import { pushNotificationError, pushNotificationSuccess } from "../utils/defaultNotifications";
 import Discard from "../components/Discard";
 
 interface ArticleEditorProps {
-    initialArticle: Article;
+    initialArticle?: DefaultArticleFragment;
     saveArticle: (article: any) => any;
 }
 
@@ -16,7 +16,17 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({
     initialArticle,
     saveArticle
 }) => {
-    const [article, setArticle] = useState<Article>(initialArticle);
+    const [article, setArticle] = useState<DefaultArticleFragment>(initialArticle || {
+        id: 0,
+        author: "",
+        content: "",
+        slug: "",
+        title: "",
+        markdown: "",
+        published: false,
+        createdAt: Date.now(),
+        updatedAt: Date.now()
+    });
 
     function handleArticleChange(changes: Partial<Article>) {
         setArticle(article => {
@@ -33,7 +43,6 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({
     }
 
     async function handleSave() {
-        //TODO check that code
         const result = await saveArticle({
             id: article.id,
             author:  article.author,
@@ -53,10 +62,9 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({
 
     return (
         <div>
-            <h1>Edit Article</h1>
             <div>
                 <ArticleEditorForm { ...article } handleChange={handleArticleChange}/>
-                <ArticlePreviewer { ...article }/>
+                <ArticleComponent { ...article }/>
             </div>
             <Discard />
             <button onClick={handleSave}>Save</button>

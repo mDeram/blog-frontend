@@ -92,6 +92,17 @@ export type QueryArticleBySlugArgs = {
   slug: Scalars['String'];
 };
 
+export type DefaultArticleFragment = { __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean };
+
+export type CreateArticleMutationVariables = Exact<{
+  author: Scalars['String'];
+  title: Scalars['String'];
+  markdown: Scalars['String'];
+}>;
+
+
+export type CreateArticleMutation = { __typename?: 'Mutation', createArticle: { __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean } };
+
 export type DeleteArticleMutationVariables = Exact<{
   id: Scalars['Int'];
 }>;
@@ -129,7 +140,30 @@ export type ArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ArticlesQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'Article', id: number, author: string, title: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean }> };
 
+export const DefaultArticleFragmentDoc = gql`
+    fragment DefaultArticle on Article {
+  id
+  author
+  title
+  slug
+  content
+  markdown
+  createdAt
+  updatedAt
+  published
+}
+    `;
+export const CreateArticleDocument = gql`
+    mutation CreateArticle($author: String!, $title: String!, $markdown: String!) {
+  createArticle(author: $author, title: $title, markdown: $markdown) {
+    ...DefaultArticle
+  }
+}
+    ${DefaultArticleFragmentDoc}`;
 
+export function useCreateArticleMutation() {
+  return Urql.useMutation<CreateArticleMutation, CreateArticleMutationVariables>(CreateArticleDocument);
+};
 export const DeleteArticleDocument = gql`
     mutation DeleteArticle($id: Int!) {
   deleteArticle(id: $id)
@@ -160,18 +194,10 @@ export function useUpdateArticleMutation() {
 export const ArticleDocument = gql`
     query Article($id: Int!) {
   article(id: $id) {
-    id
-    author
-    title
-    slug
-    content
-    markdown
-    createdAt
-    updatedAt
-    published
+    ...DefaultArticle
   }
 }
-    `;
+    ${DefaultArticleFragmentDoc}`;
 
 export function useArticleQuery(options: Omit<Urql.UseQueryArgs<ArticleQueryVariables>, 'query'>) {
   return Urql.useQuery<ArticleQuery>({ query: ArticleDocument, ...options });
