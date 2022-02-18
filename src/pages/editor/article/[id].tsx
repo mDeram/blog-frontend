@@ -6,6 +6,7 @@ import ArticlePreviewer from "../../../components/ArticlePreviewer";
 import { Article, useArticleQuery, useUpdateArticleMutation } from "../../../generated/graphql";
 import { marked } from "marked";
 import { pushNotificationError, pushNotificationSuccess } from "../../../utils/defaultNotifications";
+import Discard from "../../../components/Discard";
 
 //TODO SSR
 
@@ -75,6 +76,7 @@ const EditArticle: NextPage<{ id: number }> = ({ id }) => {
                     <p>Loading article</p>
                 </div>
             }
+            <Discard />
             <button onClick={_ => handleSave()}>Save</button>
         </div>
     );
