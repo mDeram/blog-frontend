@@ -1,7 +1,7 @@
 import { GetServerSideProps, NextPage } from "next";
 import React, { useEffect } from "react";
 import { useArticleQuery, useUpdateArticleMutation } from "../../../generated/graphql";
-import { pushNotificationError } from "../../../utils/defaultNotifications";
+import { pushNotificationError, pushNotificationSuccess } from "../../../utils/defaultNotifications";
 import ArticleEditor from "../../../components/ArticleEditor";
 
 //TODO SSR
@@ -15,8 +15,18 @@ const EditArticle: NextPage<{ id: number }> = ({ id }) => {
             pushNotificationError(`Could not fetch article with id: ${id}`);
     }, [fetching, data]);
 
-    function handleSaveArticle(data: any) {
-        return updateArticle(data);
+    async function handleSaveArticle(data: any) {
+        const result = await updateArticle(data);
+
+        if (result.data?.updateArticle) {
+            pushNotificationSuccess(`Article as been saved`);
+        } else {
+            const error = result.error || "server error";
+            pushNotificationError(`
+                Could not save article
+                Error: ${error}
+            `);
+        }
     }
 
     return (

@@ -42,7 +42,7 @@ export type Category = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createArticle: Article;
+  createArticle?: Maybe<Article>;
   deleteArticle: Scalars['Boolean'];
   setPublishArticle: Scalars['Boolean'];
   updateArticle: Scalars['Boolean'];
@@ -101,7 +101,7 @@ export type CreateArticleMutationVariables = Exact<{
 }>;
 
 
-export type CreateArticleMutation = { __typename?: 'Mutation', createArticle: { __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean } };
+export type CreateArticleMutation = { __typename?: 'Mutation', createArticle?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean } | null };
 
 export type DeleteArticleMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -431,12 +431,9 @@ export default {
           {
             "name": "createArticle",
             "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "OBJECT",
-                "name": "Article",
-                "ofType": null
-              }
+              "kind": "OBJECT",
+              "name": "Article",
+              "ofType": null
             },
             "args": [
               {

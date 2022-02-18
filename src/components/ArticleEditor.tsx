@@ -4,7 +4,6 @@ import ArticleEditorForm from "../components/ArticleEditorForm";
 import ArticleComponent from "../components/Article";
 import { Article, DefaultArticleFragment } from "../generated/graphql";
 import { marked } from "marked";
-import { pushNotificationError, pushNotificationSuccess } from "../utils/defaultNotifications";
 import Discard from "../components/Discard";
 
 interface ArticleEditorProps {
@@ -42,22 +41,13 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({
         });
     }
 
-    async function handleSave() {
-        const result = await saveArticle({
+    function handleSave() {
+        saveArticle({
             id: article.id,
             author:  article.author,
             title: article.title,
             markdown: article.markdown
         });
-
-        if (result.data) {
-            pushNotificationSuccess(`Article ${article.title} as been saved`);
-        } else {
-            pushNotificationError(`
-                Could not save article ${article.title}
-                Error: ${result.error}
-            `);
-        }
     }
 
     return (
