@@ -1,17 +1,12 @@
-import NotificationManager from '../components/Notification';
-import { createClient, Provider } from 'urql'
-import '../styles/globals.scss'
+import NotificationManager from "../components/Notification";
+import urqlClient from "../utils/createUrqlClient";
+import "../styles/globals.scss";
+import { Provider } from "urql";
 
-const client = createClient({
-    url: "http://localhost:7000/graphql",
-    /*fetchOptions: {
-        credentials: "include"
-    }*/
-});
 
 function MyApp({ Component, pageProps }: any) {
     return (
-        <Provider value={client}>
+        <Provider value={urqlClient}>
             <NotificationManager />
             <Component {...pageProps} />
         </Provider>
