@@ -1,30 +1,18 @@
 import { GetServerSideProps, NextPage } from "next";
-import React, { useEffect } from "react";
+import React from "react";
 import { ArticleBySlugDocument, useArticleBySlugQuery } from "../../generated/graphql";
-import { pushNotificationError } from "../../utils/defaultNotifications";
 import ArticleComponent from "../../components/Article";
 import createUrqlClient from "../../utils/createUrqlClient";
 import { initUrqlClient, withUrqlClient } from "next-urql";
 import { cacheExchange, dedupExchange, fetchExchange, ssrExchange } from "urql";
 
 const Article: NextPage<{ slug: string }> = ({ slug }) => {
-    const [{ data, fetching }] = useArticleBySlugQuery({ variables: { slug } });
-
-    //TODO redirect instead
-    useEffect(() => {
-        if (!fetching && !data)
-            pushNotificationError(`Could not fetch article: ${slug}`);
-    }, [fetching, data]);
+    const [{ data }] = useArticleBySlugQuery({ variables: { slug } });
 
     return (
         <div>
             {data?.articleBySlug &&
                 <ArticleComponent { ...data.articleBySlug }/>
-            }
-            {fetching &&
-                <div>
-                    <p>Loading article</p>
-                </div>
             }
         </div>
     );
@@ -41,7 +29,17 @@ export const getServerSideProps: GetServerSideProps = async(context) => {
         exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
     }, false);
 
-    await client?.query(ArticleBySlugDocument, { slug }).toPromise();
+    const result = await client?.query(ArticleBySlugDocument, { slug }).toPromise();
+    const isArticleFound = !!result?.data.articleBySlug;
+
+    if (!isArticleFound) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        }
+    }
 
     return {
         props: {
