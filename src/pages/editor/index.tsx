@@ -5,6 +5,7 @@ import DeleteArticle from "../../components/DeleteArticle";
 import Link from "next/link";
 import createUrqlClient from "../../utils/createUrqlClient";
 import { withUrqlClient } from "next-urql";
+import ArticleActions from "../../components/ArticleActions";
 
 const Editor: React.FC = () => {
     const [{ data, fetching }] = useArticlesQuery();
@@ -36,11 +37,15 @@ const Editor: React.FC = () => {
             <Link href="/editor/create"><a>+</a></Link>
             <div>
                 {data?.articles.map(article =>
-                    <ArticleCard
-                        key={article.id}
-                        deleteArticle={() => handleTryDeleteArticle(article.id, article.title)}
-                        { ...article }
-                    />
+                    <div key={article.id}>
+                        <ArticleCard
+                            { ...article }
+                        />
+                        <ArticleActions
+                            deleteArticle={() => handleTryDeleteArticle(article.id, article.title)}
+                            { ...article }
+                        />
+                    </div>
                 )}
             </div>
             {fetching &&
