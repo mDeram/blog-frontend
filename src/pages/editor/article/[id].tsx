@@ -3,6 +3,8 @@ import React, { useEffect } from "react";
 import { useArticleQuery, useUpdateArticleMutation } from "../../../generated/graphql";
 import { pushNotificationError, pushNotificationSuccess } from "../../../utils/defaultNotifications";
 import ArticleEditor from "../../../components/ArticleEditor";
+import createUrqlClient from "../../../utils/createUrqlClient";
+import { withUrqlClient } from "next-urql";
 
 //TODO SSR
 
@@ -49,9 +51,26 @@ const EditArticle: NextPage<{ id: number }> = ({ id }) => {
 
 export const getServerSideProps: GetServerSideProps = async(context) => {
     let id = 0;
-    if (typeof context.query.id === "string")
-        id = parseInt(context.query.id);
-    return { props: { id } }
+    if (typeof context.params?.id === "string")
+        id = parseInt(context.params?.id);
+
+    /*
+    const ssrCache = ssrExchange({ isClient: false });
+    const client = initUrqlClient({
+        url: "http://localhost:7000/graphql",
+        exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
+    }, false);
+
+    await client?.query(ArticleDocument, { id }).toPromise();
+
+    return {
+        props: {
+            id,
+            urqlState: ssrCache.extractData()
+        }
+    };
+    */
+    return { props: { id } };
 }
 
-export default EditArticle;
+export default withUrqlClient(createUrqlClient)(EditArticle);

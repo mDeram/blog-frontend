@@ -138,7 +138,7 @@ export type ArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Art
 export type ArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ArticlesQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'Article', id: number, author: string, title: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean }> };
+export type ArticlesQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean }> };
 
 export const DefaultArticleFragmentDoc = gql`
     fragment DefaultArticle on Article {
@@ -205,17 +205,10 @@ export function useArticleQuery(options: Omit<Urql.UseQueryArgs<ArticleQueryVari
 export const ArticlesDocument = gql`
     query Articles {
   articles {
-    id
-    author
-    title
-    content
-    markdown
-    createdAt
-    updatedAt
-    published
+    ...DefaultArticle
   }
 }
-    `;
+    ${DefaultArticleFragmentDoc}`;
 
 export function useArticlesQuery(options?: Omit<Urql.UseQueryArgs<ArticlesQueryVariables>, 'query'>) {
   return Urql.useQuery<ArticlesQuery>({ query: ArticlesDocument, ...options });

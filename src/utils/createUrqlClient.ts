@@ -1,9 +1,10 @@
-import { createClient, dedupExchange, fetchExchange } from "urql";
+import { dedupExchange, fetchExchange } from "urql";
 import { cacheExchange } from "@urql/exchange-graphcache";
 import { Article, ArticlesDocument, ArticlesQuery } from "../generated/graphql";
 import schema from "../generated/graphql";
+import { NextUrqlClientConfig } from "next-urql";
 
-const urqlClient = createClient({
+const createUrqlClient: NextUrqlClientConfig = (ssrExchange) => ({
     url: "http://localhost:7000/graphql",
     /*fetchOptions: {
         credentials: "include"
@@ -26,6 +27,16 @@ const urqlClient = createClient({
                     }
                 }
             },*/
+            resolvers: {
+                Query: {
+                    article: (parent, args, cache, info) => {
+                        return {
+                            __typename: "Article",
+                            id: args.id
+                        };
+                    }
+                }
+            },
             updates: {
                 Mutation: {
                     createArticle: (_result, args, cache, info) => {
@@ -37,6 +48,8 @@ const urqlClient = createClient({
                         });
                     },
                     updateArticle: (_result, args, cache, info) => {
+                        if (!_result.updateArticle) return;
+
                         cache.invalidate("Query", "article", { id: args.id });
                     },
                     deleteArticle: (_result, args, cache, info) => {
@@ -59,8 +72,9 @@ const urqlClient = createClient({
                 }
             }
         }),
+        ssrExchange,
         fetchExchange
     ]
 });
 
-export default urqlClient;
+export default createUrqlClient;

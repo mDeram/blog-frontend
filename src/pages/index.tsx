@@ -1,6 +1,7 @@
 //TODO lookup import Head from 'next/head'
 //TODO lookup import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import { withUrqlClient } from 'next-urql';
+import createUrqlClient from '../utils/createUrqlClient';
 
 const Index: React.FC = () => {
     return (
@@ -10,4 +11,4 @@ const Index: React.FC = () => {
     )
 }
 
-export default Index;
+export default withUrqlClient(createUrqlClient)(Index);

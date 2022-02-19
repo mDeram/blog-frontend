@@ -3,6 +3,8 @@ import { useArticlesQuery, useDeleteArticleMutation } from "../../generated/grap
 import ArticleCard from "../../components/ArticleCard";
 import DeleteArticle from "../../components/DeleteArticle";
 import Link from "next/link";
+import createUrqlClient from "../../utils/createUrqlClient";
+import { withUrqlClient } from "next-urql";
 
 const Editor: React.FC = () => {
     const [{ data, fetching }] = useArticlesQuery();
@@ -56,4 +58,4 @@ const Editor: React.FC = () => {
     );
 }
 
-export default Editor;
+export default withUrqlClient(createUrqlClient)(Editor);
