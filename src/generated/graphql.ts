@@ -135,6 +135,13 @@ export type ArticleQueryVariables = Exact<{
 
 export type ArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean } | null };
 
+export type ArticleBySlugQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+
+export type ArticleBySlugQuery = { __typename?: 'Query', articleBySlug?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean } | null };
+
 export type ArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -201,6 +208,17 @@ export const ArticleDocument = gql`
 
 export function useArticleQuery(options: Omit<Urql.UseQueryArgs<ArticleQueryVariables>, 'query'>) {
   return Urql.useQuery<ArticleQuery>({ query: ArticleDocument, ...options });
+};
+export const ArticleBySlugDocument = gql`
+    query ArticleBySlug($slug: String!) {
+  articleBySlug(slug: $slug) {
+    ...DefaultArticle
+  }
+}
+    ${DefaultArticleFragmentDoc}`;
+
+export function useArticleBySlugQuery(options: Omit<Urql.UseQueryArgs<ArticleBySlugQueryVariables>, 'query'>) {
+  return Urql.useQuery<ArticleBySlugQuery>({ query: ArticleBySlugDocument, ...options });
 };
 export const ArticlesDocument = gql`
     query Articles {
