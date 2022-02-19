@@ -8,6 +8,7 @@ export interface PopupProps {
     hideTriggerOnShow?: boolean;
     openRef?: React.MutableRefObject<Function | undefined>;
     closeRef?: React.MutableRefObject<Function | undefined>;
+    onClose?: Function;
 }
 
 const Popup: React.FC<PopupProps> = ({
@@ -16,7 +17,8 @@ const Popup: React.FC<PopupProps> = ({
     closeOnDocumentClick = true,
     hideTriggerOnShow = false,
     openRef,
-    closeRef
+    closeRef,
+    onClose
 }) => {
     const [show, setShow] = useState(false);
     const ref = useOuterClick(handleSetHide, closeOnDocumentClick ? show : false);
@@ -36,6 +38,7 @@ const Popup: React.FC<PopupProps> = ({
 
     function handleSetHide() {
         setShow(false);
+        if (onClose) onClose();
     }
 
     function renderTrigger() {
