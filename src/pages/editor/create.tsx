@@ -3,6 +3,8 @@ import { useCreateArticleMutation } from "../../generated/graphql";
 import ArticleEditor from "../../components/ArticleEditor";
 import { useRouter } from "next/router";
 import { pushNotificationError, pushNotificationSuccess } from "../../utils/defaultNotifications";
+import createUrqlClient from "../../utils/createUrqlClient";
+import { withUrqlClient } from "next-urql";
 
 const CreateArticle: React.FC = () => {
     const [,createArticle] = useCreateArticleMutation();
@@ -33,4 +35,4 @@ const CreateArticle: React.FC = () => {
     );
 }
 
-export default CreateArticle;
+export default withUrqlClient(createUrqlClient)(CreateArticle);
