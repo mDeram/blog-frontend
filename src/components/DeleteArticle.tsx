@@ -38,7 +38,7 @@ const DeleteArticle: React.FC<DeleteArticleProps> = ({
     }
 
     return (
-        <Popup openRef={openRef} closeRef={closeRef}>
+        <Popup openRef={openRef} closeRef={closeRef} onClose={() => setValue("")}>
             <div>
                 <h2>Delete {name}?</h2>
                 <p>To delete {name} type in <strong>&quot;{name}&quot;</strong> and press delete.</p>
