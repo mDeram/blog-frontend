@@ -20,7 +20,7 @@ const Article: React.FC<ArticleProps> = ({
             <p>{author}</p>
             {//<p>created on {createdAt}</p>
             }
-            <p>updated on {updatedAt}</p>
+            <p>updated on {updatedAt.toString()}</p>
             <div>{parseHtml(content)}</div>
         </div>
     )

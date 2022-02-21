@@ -15,14 +15,19 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
     contentShort,
     link
 }) => {
+    function formatCreatedAtDate() {
+        const [_, month, day, year] = createdAt.toDateString().split(" ");
+        return `${month.toUpperCase()} ${day}, ${year}`;
+    }
+
     return (
-        <Link href={link}><a>
-            <div>
+        <div className={styles.articleCard}>
+            <Link href={link}><a>
                 <h2>{title}</h2>
-                <p>{contentShort}</p>
-                <p>{createdAt}</p>
-            </div>
-        </a></Link>
+                <p className={styles.contentShort}>{contentShort}</p>
+                <p className={styles.createdAt}>{formatCreatedAtDate()}</p>
+            </a></Link>
+        </div>
     )
 }
 
