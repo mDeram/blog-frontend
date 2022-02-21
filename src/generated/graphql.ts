@@ -22,6 +22,7 @@ export type Article = {
   author: Scalars['String'];
   categories: Array<Category>;
   content: Scalars['String'];
+  contentShort: Scalars['String'];
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
   markdown: Scalars['String'];
@@ -92,6 +93,8 @@ export type QueryArticleBySlugArgs = {
   slug: Scalars['String'];
 };
 
+export type ArticleSnippetFragment = { __typename?: 'Article', id: number, slug: string, title: string, createdAt: any, updatedAt: any, contentShort: string, published: boolean };
+
 export type DefaultArticleFragment = { __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean };
 
 export type CreateArticleMutationVariables = Exact<{
@@ -145,8 +148,19 @@ export type ArticleBySlugQuery = { __typename?: 'Query', articleBySlug?: { __typ
 export type ArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ArticlesQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean }> };
+export type ArticlesQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'Article', id: number, slug: string, title: string, createdAt: any, updatedAt: any, contentShort: string, published: boolean }> };
 
+export const ArticleSnippetFragmentDoc = gql`
+    fragment ArticleSnippet on Article {
+  id
+  slug
+  title
+  createdAt
+  updatedAt
+  contentShort
+  published
+}
+    `;
 export const DefaultArticleFragmentDoc = gql`
     fragment DefaultArticle on Article {
   id
@@ -223,10 +237,10 @@ export function useArticleBySlugQuery(options: Omit<Urql.UseQueryArgs<ArticleByS
 export const ArticlesDocument = gql`
     query Articles {
   articles {
-    ...DefaultArticle
+    ...ArticleSnippet
   }
 }
-    ${DefaultArticleFragmentDoc}`;
+    ${ArticleSnippetFragmentDoc}`;
 
 export function useArticlesQuery(options?: Omit<Urql.UseQueryArgs<ArticlesQueryVariables>, 'query'>) {
   return Urql.useQuery<ArticlesQuery>({ query: ArticlesDocument, ...options });
@@ -277,6 +291,17 @@ export default {
           },
           {
             "name": "content",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "contentShort",
             "type": {
               "kind": "NON_NULL",
               "ofType": {

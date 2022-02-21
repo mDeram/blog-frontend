@@ -1,5 +1,5 @@
 query Articles {
     articles {
-        ...DefaultArticle
+        ...ArticleSnippet
     }
 }

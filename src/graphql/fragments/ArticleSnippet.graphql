@@ -1,0 +1,9 @@
+fragment ArticleSnippet on Article {
+    id
+    slug
+    title
+    createdAt
+    updatedAt
+    contentShort
+    published
+}

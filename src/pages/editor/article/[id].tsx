@@ -15,7 +15,7 @@ const EditArticle: NextPage<{ id: number }> = ({ id }) => {
     useEffect(() => {
         if (!fetching && !data)
             pushNotificationError(`Could not fetch article with id: ${id}`);
-    }, [fetching, data]);
+    }, [fetching, data, id]);
 
     async function handleSaveArticle(data: any) {
         const result = await updateArticle(data);
