@@ -40,6 +40,7 @@ const Editor: React.FC = () => {
                     <div key={article.id}>
                         <ArticleCard
                             { ...article }
+                            link={`/editor/article/${article.id}`}
                         />
                         <ArticleActions
                             deleteArticle={() => handleTryDeleteArticle(article.id, article.title)}
