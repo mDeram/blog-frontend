@@ -1,0 +1,10 @@
+@use 'colorscheme/chill' as cs;
+
+.centered {
+    width: 30%;
+    margin: auto;
+}
+
+.content {
+    background-color: cs.$a;
+}

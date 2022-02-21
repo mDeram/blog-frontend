@@ -12,7 +12,6 @@ interface ArticleCardProps {
 const ArticleCard: React.FC<ArticleCardProps> = ({
     title,
     createdAt,
-    updatedAt,
     contentShort,
     link
 }) => {
@@ -20,9 +19,8 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
         <Link href={link}><a>
             <div>
                 <h2>{title}</h2>
-                <p>Created on {createdAt}</p>
-                <p>Updated on {updatedAt}</p>
                 <p>{contentShort}</p>
+                <p>{createdAt}</p>
             </div>
         </a></Link>
     )

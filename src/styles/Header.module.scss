@@ -1,0 +1,18 @@
+@use 'colorscheme/chill' as cs;
+
+.header {
+    background-color: cs.$d;
+    color: cs.$a;
+    height: 100px;
+    text-align: center;
+
+    h1 {
+        padding: 15px;
+    }
+    a {
+        padding: 15px;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+}
