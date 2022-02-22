@@ -5,16 +5,17 @@ import ArticleComponent from "../../components/Article";
 import createUrqlClient from "../../utils/createUrqlClient";
 import { initUrqlClient, withUrqlClient } from "next-urql";
 import { cacheExchange, dedupExchange, fetchExchange, ssrExchange } from "urql";
+import Layout from "../../components/Layout";
 
 const Article: NextPage<{ slug: string }> = ({ slug }) => {
     const [{ data }] = useArticleBySlugQuery({ variables: { slug } });
 
     return (
-        <div>
+        <Layout>
             {data?.articleBySlug &&
                 <ArticleComponent { ...data.articleBySlug }/>
             }
-        </div>
+        </Layout>
     );
 }
 

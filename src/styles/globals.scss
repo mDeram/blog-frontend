@@ -1,4 +1,4 @@
-@use 'colorscheme/chill' as cs;
+@use 'colorscheme/chill' as *;
 
 html,
 body {
@@ -9,7 +9,7 @@ body {
 }
 
 body {
-    background-color: cs.$a;
+    background-color: $color-a;
 }
 
 a {

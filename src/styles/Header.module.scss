@@ -1,8 +1,8 @@
-@use 'colorscheme/chill' as cs;
+@use 'colorscheme/chill' as *;
 
 .header {
-    background-color: cs.$d;
-    color: cs.$a;
+    background-color: $color-d;
+    color: $color-a;
     height: 120px;
     text-align: center;
 

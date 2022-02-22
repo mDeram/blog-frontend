@@ -7,10 +7,8 @@ const Layout: React.FC = ({
     return (
         <>
         <Header />
-        <div className={styles.content}>
-            <div className={styles.centered}>
-                {children}
-            </div>
+        <div className={styles.centered}>
+            {children}
         </div>
         </>
     );

@@ -1,0 +1,24 @@
+@use 'colorscheme/chill' as *;
+
+.article {
+    margin-top: 30px;
+    color: $color-d;
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .details {
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        font-weight: lighter;
+        font-size: 0.75rem;
+    }
+
+    .content {
+        margin-top: 20px;
+        line-height: 1.5rem;
+        margin-bottom: 30px;
+    }
+}
