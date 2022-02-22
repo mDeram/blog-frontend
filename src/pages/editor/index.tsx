@@ -35,7 +35,11 @@ const Editor: React.FC = () => {
 
     return (
         <Layout>
-            <Link href="/editor/create"><a>+</a></Link>
+            <div className={styles.createArticle}>
+                <Link href="/editor/create"><a>
+                    Create an article <img src="/icons/pen-to-square-regular.svg" alt={`create article`}/>
+                </a></Link>
+            </div>
             <div>
                 {data?.articles.map(article =>
                     <div key={article.id} className={styles.articleEditBox}>
