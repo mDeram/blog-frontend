@@ -6,6 +6,8 @@ import Link from "next/link";
 import createUrqlClient from "../../utils/createUrqlClient";
 import { withUrqlClient } from "next-urql";
 import ArticleActions from "../../components/ArticleActions";
+import Layout from "../../components/Layout";
+import styles from "../../styles/Editor.module.scss";
 
 const Editor: React.FC = () => {
     const [{ data, fetching }] = useArticlesQuery();
@@ -32,12 +34,11 @@ const Editor: React.FC = () => {
     }
 
     return (
-        <div>
-            <h1>Articles Editor</h1>
+        <Layout>
             <Link href="/editor/create"><a>+</a></Link>
             <div>
                 {data?.articles.map(article =>
-                    <div key={article.id}>
+                    <div key={article.id} className={styles.articleEditBox}>
                         <ArticleCard
                             { ...article }
                             link={`/editor/article/${article.id}`}
@@ -60,7 +61,7 @@ const Editor: React.FC = () => {
                 openRef={openPopupRef}
                 closeRef={closePopupRef}
             />
-        </div>
+        </Layout>
     );
 }
 
