@@ -5,6 +5,7 @@ import { pushNotificationError, pushNotificationSuccess } from "../../../utils/d
 import ArticleEditor from "../../../components/ArticleEditor";
 import createUrqlClient from "../../../utils/createUrqlClient";
 import { withUrqlClient } from "next-urql";
+import Header from "src/components/Header";
 
 //TODO SSR
 
@@ -33,7 +34,6 @@ const EditArticle: NextPage<{ id: number }> = ({ id }) => {
 
     return (
         <div>
-            <h1>Edit Article</h1>
             {data?.article &&
                 <ArticleEditor
                     saveArticle={handleSaveArticle}

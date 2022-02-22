@@ -18,26 +18,26 @@ const ArticleEditorForm: React.FC<ArticleEditorFormProps> = ({
 }) => {
     return (
         <div>
-            <label htmlFor="title">Title</label>
             <input
                 type="text"
                 id="title"
                 value={title}
                 onChange={e => handleChange({ title: e.target.value })}
+                placeholder="Title"
             />
-            <p>The slug will be: {slug}</p>
-            <label htmlFor="author">Author</label>
+            <p>slug: {slug}</p>
             <input
                 type="text"
                 id="author"
                 value={author}
                 onChange={e => handleChange({ author: e.target.value })}
+                placeholder="Author"
             />
-            <label htmlFor="markdown">Markdown</label>
             <textarea
                 id="markdown"
                 value={markdown}
                 onChange={e => handleChange({ markdown: e.target.value })}
+                placeholder="Write down your article using markdown"
             />
         </div>
     )

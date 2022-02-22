@@ -1,12 +1,17 @@
 import Header from "../components/Header";
 import styles from "../styles/Layout.module.scss";
 
-const Layout: React.FC = ({
-    children
+interface LayoutProps {
+    title?: string
+}
+
+const Layout: React.FC<LayoutProps> = ({
+    children,
+    title
 }) => {
     return (
         <>
-        <Header />
+        <Header title={title}/>
         <div className={styles.centered}>
             {children}
         </div>

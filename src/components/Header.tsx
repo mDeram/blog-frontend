@@ -1,10 +1,16 @@
 import Link from "next/link";
 import styles from "../styles/Header.module.scss";
 
-const Header: React.FC = () => {
+interface HeaderProps {
+    title?: string;
+}
+
+const Header: React.FC<HeaderProps> = ({
+    title = "mDeram's blog"
+}) => {
     return (
         <header className={styles.header}>
-            <h1>mDeram's blog</h1>
+            <h1>{title}</h1>
             <Link href="/"><a>Blog</a></Link>
             <a href="https://github.com/mDeram">Github</a>
         </header>

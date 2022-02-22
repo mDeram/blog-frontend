@@ -5,6 +5,8 @@ import ArticleComponent from "../components/Article";
 import { Article, DefaultArticleFragment } from "../generated/graphql";
 import { marked } from "marked";
 import Discard from "../components/Discard";
+import styles from "../styles/ArticleEditor.module.scss";
+import Header from "../components/Header";
 
 interface ArticleEditorProps {
     initialArticle?: DefaultArticleFragment;
@@ -52,12 +54,19 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({
 
     return (
         <div>
-            <div>
-                <ArticleEditorForm { ...article } handleChange={handleArticleChange}/>
-                <ArticleComponent { ...article }/>
+            <Header title={`editing article "${article.title.slice(0, 50)}"`}/>
+            <div className={styles.editorContainer}>
+                <div className={styles.editorContainerChild}>
+                    <ArticleEditorForm { ...article } handleChange={handleArticleChange}/>
+                </div>
+                <div className={styles.editorContainerChild}>
+                    <ArticleComponent { ...article }/>
+                </div>
             </div>
-            <Discard />
-            <button onClick={handleSave}>Save</button>
+            <div className={styles.optionBar}>
+                <Discard />
+                <button onClick={handleSave}>Save</button>
+            </div>
         </div>
     );
 }

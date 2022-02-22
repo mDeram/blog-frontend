@@ -34,7 +34,7 @@ const Editor: React.FC = () => {
     }
 
     return (
-        <Layout>
+        <Layout title="mDeram's blog editor">
             <div className={styles.createArticle}>
                 <Link href="/editor/create"><a>
                     Create an article <img src="/icons/pen-to-square-regular.svg" alt={`create article`}/>
