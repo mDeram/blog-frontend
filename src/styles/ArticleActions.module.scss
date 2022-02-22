@@ -1,0 +1,16 @@
+@use 'colorscheme/chill' as *;
+
+.articleActions {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding-left: 2px;
+    min-width: 4%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    img, a {
+        display: block;
+        margin-top: 5px;
+    }
+}

@@ -29,8 +29,8 @@ const Publish: React.FC<PublishProps> = ({
     return (
         <>
             {published
-                ? <button onClick={_ => handlePublish(false)}>Unpublish</button>
-                : <button onClick={_ => handlePublish(true)}>Publish</button>
+                ? <img onClick={_ => handlePublish(false)} src="/icons/eye-regular.svg" alt={`unpublish article ${id}`}/>
+                : <img onClick={_ => handlePublish(true)} src="/icons/eye-slash-regular.svg" alt={`publish article ${id}`}/>
             }
         </>
     )

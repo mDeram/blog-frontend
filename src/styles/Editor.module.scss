@@ -1,0 +1,8 @@
+.articleEditBox {
+    display: flex;
+    align-items: center;
+    width: 104%;
+    :first-child {
+        overflow: auto;
+    }
+}

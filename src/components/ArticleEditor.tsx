@@ -23,8 +23,8 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({
         title: "",
         markdown: "",
         published: false,
-        createdAt: Date.now(),
-        updatedAt: Date.now()
+        createdAt: new Date(),
+        updatedAt: new Date()
     });
 
     function handleArticleChange(changes: Partial<Article>) {

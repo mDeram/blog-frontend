@@ -12,6 +12,9 @@
         box-shadow: rgba($color-d, 0.1) 0px 2px 6px 0px;
         color: $color-d;
     }
+    a:hover {
+        box-shadow: rgba($color-d, 0.2) 0px 6px 20px 0px;
+    }
 
     h2 {
         margin-bottom: 15px;
@@ -25,8 +28,4 @@
         font-weight: lighter;
         font-size: 0.75rem;
     }
-}
-
-.articleCard:hover {
-    box-shadow: rgba($color-d, 0.2) 0px 6px 20px 0px;
 }
