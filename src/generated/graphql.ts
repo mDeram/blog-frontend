@@ -80,6 +80,7 @@ export type Query = {
   article?: Maybe<Article>;
   articleBySlug?: Maybe<Article>;
   articles: Array<Article>;
+  articlesPublished: Array<Article>;
   categories: Array<Category>;
 };
 
@@ -149,6 +150,11 @@ export type ArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ArticlesQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'Article', id: number, slug: string, title: string, createdAt: any, updatedAt: any, contentShort: string, published: boolean }> };
+
+export type ArticlesPublishedQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ArticlesPublishedQuery = { __typename?: 'Query', articlesPublished: Array<{ __typename?: 'Article', id: number, slug: string, title: string, createdAt: any, updatedAt: any, contentShort: string, published: boolean }> };
 
 export const ArticleSnippetFragmentDoc = gql`
     fragment ArticleSnippet on Article {
@@ -244,6 +250,17 @@ export const ArticlesDocument = gql`
 
 export function useArticlesQuery(options?: Omit<Urql.UseQueryArgs<ArticlesQueryVariables>, 'query'>) {
   return Urql.useQuery<ArticlesQuery>({ query: ArticlesDocument, ...options });
+};
+export const ArticlesPublishedDocument = gql`
+    query ArticlesPublished {
+  articlesPublished {
+    ...ArticleSnippet
+  }
+}
+    ${ArticleSnippetFragmentDoc}`;
+
+export function useArticlesPublishedQuery(options?: Omit<Urql.UseQueryArgs<ArticlesPublishedQueryVariables>, 'query'>) {
+  return Urql.useQuery<ArticlesPublishedQuery>({ query: ArticlesPublishedDocument, ...options });
 };
 import { IntrospectionQuery } from 'graphql';
 export default {
@@ -659,6 +676,24 @@ export default {
           },
           {
             "name": "articles",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Article",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "articlesPublished",
             "type": {
               "kind": "NON_NULL",
               "ofType": {

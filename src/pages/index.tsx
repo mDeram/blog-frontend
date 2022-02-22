@@ -1,17 +1,17 @@
 import React from "react";
-import { useArticlesQuery } from "../generated/graphql";
+import { useArticlesPublishedQuery } from "../generated/graphql";
 import ArticleCard from "../components/ArticleCard";
 import createUrqlClient from "../utils/createUrqlClient";
 import { withUrqlClient } from "next-urql";
 import Layout from "../components/Layout";
 
 const Index: React.FC = () => {
-    const [{ data }] = useArticlesQuery();
+    const [{ data }] = useArticlesPublishedQuery();
 
     return (
         <Layout>
-            {data?.articles
-                ? data.articles.map(article =>
+            {data?.articlesPublished
+                ? data.articlesPublished.map(article =>
                     <div key={article.id}>
                         <ArticleCard
                             { ...article }
