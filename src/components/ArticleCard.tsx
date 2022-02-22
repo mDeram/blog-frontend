@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import styles from "../styles/ArticleCard.module.scss";
 
 interface ArticleCardProps {
     title: string;
@@ -24,7 +25,7 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
         <div className={styles.articleCard}>
             <Link href={link}><a>
                 <h2>{title}</h2>
-                <p className={styles.contentShort}>{contentShort}</p>
+                <p className={styles.contentShort}>{contentShort}...</p>
                 <p className={styles.createdAt}>{formatCreatedAtDate()}</p>
             </a></Link>
         </div>
