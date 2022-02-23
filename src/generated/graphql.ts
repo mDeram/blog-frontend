@@ -45,6 +45,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createArticle?: Maybe<Article>;
   deleteArticle: Scalars['Boolean'];
+  login: Scalars['Boolean'];
   setPublishArticle: Scalars['Boolean'];
   updateArticle: Scalars['Boolean'];
 };
@@ -59,6 +60,13 @@ export type MutationCreateArticleArgs = {
 
 export type MutationDeleteArticleArgs = {
   id: Scalars['Int'];
+};
+
+
+export type MutationLoginArgs = {
+  authToken: Scalars['Int'];
+  password: Scalars['String'];
+  username: Scalars['String'];
 };
 
 
@@ -113,6 +121,15 @@ export type DeleteArticleMutationVariables = Exact<{
 
 
 export type DeleteArticleMutation = { __typename?: 'Mutation', deleteArticle: boolean };
+
+export type LoginMutationVariables = Exact<{
+  username: Scalars['String'];
+  password: Scalars['String'];
+  authToken: Scalars['Int'];
+}>;
+
+
+export type LoginMutation = { __typename?: 'Mutation', login: boolean };
 
 export type SetPublishedArticleMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -199,6 +216,15 @@ export const DeleteArticleDocument = gql`
 
 export function useDeleteArticleMutation() {
   return Urql.useMutation<DeleteArticleMutation, DeleteArticleMutationVariables>(DeleteArticleDocument);
+};
+export const LoginDocument = gql`
+    mutation Login($username: String!, $password: String!, $authToken: Int!) {
+  login(username: $username, password: $password, authToken: $authToken)
+}
+    `;
+
+export function useLoginMutation() {
+  return Urql.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument);
 };
 export const SetPublishedArticleDocument = gql`
     mutation SetPublishedArticle($id: Int!, $published: Boolean!) {
@@ -533,6 +559,48 @@ export default {
             "args": [
               {
                 "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "login",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": [
+              {
+                "name": "authToken",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "password",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "username",
                 "type": {
                   "kind": "NON_NULL",
                   "ofType": {

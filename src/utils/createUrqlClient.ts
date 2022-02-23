@@ -1,15 +1,16 @@
-import { dedupExchange, fetchExchange } from "urql";
+import { dedupExchange, errorExchange, fetchExchange } from "urql";
 import { cacheExchange } from "@urql/exchange-graphcache";
 import { Article, ArticlesDocument, ArticlesQuery } from "../generated/graphql";
 import schema from "../generated/graphql";
 import { NextUrqlClientConfig } from "next-urql";
 import { transformToDate } from "../cache/transformToDate";
+import Router from "next/router";
 
 const createUrqlClient: NextUrqlClientConfig = (ssrExchange) => ({
     url: "http://localhost:7000/graphql",
-    /*fetchOptions: {
+    fetchOptions: {
         credentials: "include"
-    }*/
+    },
     exchanges: [
         dedupExchange,
         cacheExchange({
@@ -78,6 +79,12 @@ const createUrqlClient: NextUrqlClientConfig = (ssrExchange) => ({
             }
         }),
         ssrExchange,
+        /*errorExchange({
+            onError(error) {
+                if (error.message.includes("Not authenticated"))
+                    Router.push("/editor/login");
+            }
+        }),*/
         fetchExchange
     ]
 });
