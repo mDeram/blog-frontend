@@ -1,6 +1,7 @@
 @use 'colorscheme/chill' as *;
 
 .articleCard {
+    width: 100%;
     a {
         border: 1px solid $color-c;
         display: block;
