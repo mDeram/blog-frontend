@@ -1,13 +1,13 @@
-import { dedupExchange, errorExchange, fetchExchange } from "urql";
+import "dotenv/config";
+import { dedupExchange, fetchExchange } from "urql";
 import { cacheExchange } from "@urql/exchange-graphcache";
 import { Article, ArticlesDocument, ArticlesQuery } from "../generated/graphql";
 import schema from "../generated/graphql";
 import { NextUrqlClientConfig } from "next-urql";
 import { transformToDate } from "../cache/transformToDate";
-import Router from "next/router";
 
 const createUrqlClient: NextUrqlClientConfig = (ssrExchange) => ({
-    url: "http://localhost:7000/graphql",
+    url: process.env.BACK_URL || "",
     fetchOptions: {
         credentials: "include"
     },
