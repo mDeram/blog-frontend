@@ -1,3 +1,3 @@
-mutation Login($username: String!, $password: String!, $authToken: Int!) {
+mutation Login($username: String!, $password: String!, $authToken: String!) {
     login(username: $username, password: $password, authToken: $authToken)
 }

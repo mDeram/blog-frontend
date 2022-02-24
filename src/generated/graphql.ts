@@ -64,7 +64,7 @@ export type MutationDeleteArticleArgs = {
 
 
 export type MutationLoginArgs = {
-  authToken: Scalars['Int'];
+  authToken: Scalars['String'];
   password: Scalars['String'];
   username: Scalars['String'];
 };
@@ -125,7 +125,7 @@ export type DeleteArticleMutation = { __typename?: 'Mutation', deleteArticle: bo
 export type LoginMutationVariables = Exact<{
   username: Scalars['String'];
   password: Scalars['String'];
-  authToken: Scalars['Int'];
+  authToken: Scalars['String'];
 }>;
 
 
@@ -218,7 +218,7 @@ export function useDeleteArticleMutation() {
   return Urql.useMutation<DeleteArticleMutation, DeleteArticleMutationVariables>(DeleteArticleDocument);
 };
 export const LoginDocument = gql`
-    mutation Login($username: String!, $password: String!, $authToken: Int!) {
+    mutation Login($username: String!, $password: String!, $authToken: String!) {
   login(username: $username, password: $password, authToken: $authToken)
 }
     `;

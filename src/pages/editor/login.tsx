@@ -16,11 +16,7 @@ const Login: React.FC = () => {
         if (isSubmitting) return;
         setIsSubmitting(true);
 
-        const result = await login({
-            username: inputs.username,
-            password: inputs.password,
-            authToken: parseInt(inputs.authToken) || 0
-        });
+        const result = await login({ ...inputs });
 
         if (result.data?.login)
             router.push("/editor");
