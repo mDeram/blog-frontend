@@ -1,11 +1,13 @@
 import React from "react";
-import { useArticlesPublishedQuery } from "../generated/graphql";
+import { ArticlesPublishedDocument, useArticlesPublishedQuery } from "../generated/graphql";
 import ArticleCard from "../components/ArticleCard";
 import createUrqlClient from "../utils/createUrqlClient";
-import { withUrqlClient } from "next-urql";
+import { initUrqlClient, withUrqlClient } from "next-urql";
 import Layout from "../components/Layout";
+import { cacheExchange, dedupExchange, fetchExchange, ssrExchange } from "urql";
+import { GetStaticProps, NextPage } from "next";
 
-const Index: React.FC = () => {
+const Index: NextPage= () => {
     const [{ data }] = useArticlesPublishedQuery();
 
     return (
@@ -25,4 +27,20 @@ const Index: React.FC = () => {
     );
 }
 
-export default withUrqlClient(createUrqlClient, { ssr: true })(Index);
+export const getStaticProps: GetStaticProps = async () => {
+    const ssrCache = ssrExchange({ isClient: false });
+    const client = initUrqlClient({
+        url: "http://localhost:7000/graphql",
+        exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
+    }, false);
+
+    await client?.query(ArticlesPublishedDocument).toPromise();
+
+    return {
+        props: {
+            urqlState: ssrCache.extractData()
+        },
+    };
+}
+
+export default withUrqlClient(createUrqlClient)(Index);
