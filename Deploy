@@ -4,7 +4,7 @@
 old_sum=$(cat Deploy.cache)
 new_sum=$(md5sum package-lock.json)
 if [ "$old_sum" != "$new_sum" ]; then
-    npm ci
+    npm ci --production=false
     echo -n "$new_sum" > Deploy.cache
 fi
 
