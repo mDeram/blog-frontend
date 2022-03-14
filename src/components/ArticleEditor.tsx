@@ -7,6 +7,8 @@ import { marked } from "marked";
 import Discard from "../components/Discard";
 import styles from "../styles/ArticleEditor.module.scss";
 import Header from "../components/Header";
+import Link from "next/link";
+import { isEqual } from "lodash";
 
 interface ArticleEditorProps {
     initialArticle?: DefaultArticleFragment;
@@ -52,6 +54,13 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({
         });
     }
 
+    function renderDiscardOrBack() {
+        if (!isEqual(article, initialArticle))
+            return <Discard />
+
+        return <Link href="/editor"><a>Back</a></Link>
+    }
+
     return (
         <div>
             <Header title={`editing article "${article.title.slice(0, 50)}"`}/>
@@ -64,7 +73,7 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({
                 </div>
             </div>
             <div className={styles.optionBar}>
-                <Discard />
+                {renderDiscardOrBack()}
                 <button onClick={handleSave}>Save</button>
             </div>
         </div>
