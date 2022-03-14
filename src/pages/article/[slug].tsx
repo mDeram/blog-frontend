@@ -1,4 +1,4 @@
-import { GetServerSideProps, GetStaticPaths, GetStaticProps, NextPage } from "next";
+import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import React from "react";
 import { ArticleBySlugDocument, ArticlesPublishedDocument, useArticleBySlugQuery } from "../../generated/graphql";
 import ArticleComponent from "../../components/Article";
