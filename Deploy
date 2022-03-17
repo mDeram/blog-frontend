@@ -1,14 +1,3 @@
 #!/bin/sh
 
-# Run npm only if package-lock.json changed
-old_sum=$(cat Deploy.cache)
-new_sum=$(md5sum package-lock.json)
-if [ "$old_sum" != "$new_sum" ]; then
-    npm ci --production=false
-    echo -n "$new_sum" > Deploy.cache
-fi
-
-npm run build
-
-# Reload the server
-pm2 reload blog-frontend
+pnpm i --production=false --frozen-lockfile && pnpm run build && pm2 reload blog-frontend && echo "Deployed" || echo "Error"
