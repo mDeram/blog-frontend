@@ -14,8 +14,12 @@
         line-height: 1.8;
     }
 
-    p, ul {
+    p, ul, pre {
         margin-bottom: 1rem;
+    }
+
+    a {
+        color: darkblue;
     }
 
     a:hover {
