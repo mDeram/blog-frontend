@@ -1,11 +1,25 @@
 @use 'colorscheme/chill' as *;
 
 .article {
-    margin-top: 30px;
+    margin-top: 70px;
     color: $color-d;
 
     h2 {
-        font-size: 1.5rem;
+        font-size: 2rem;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    p, li {
+        line-height: 1.8;
+    }
+
+    p, ul {
+        margin-bottom: 1rem;
+    }
+
+    a:hover {
+        text-decoration: underline;
     }
 
     .details {
