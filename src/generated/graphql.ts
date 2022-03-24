@@ -25,6 +25,7 @@ export type Article = {
   contentShort: Scalars['String'];
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
+  likeCounter: Scalars['Int'];
   markdown: Scalars['String'];
   published: Scalars['Boolean'];
   slug: Scalars['String'];
@@ -47,6 +48,7 @@ export type Mutation = {
   deleteArticle: Scalars['Boolean'];
   login: Scalars['Boolean'];
   setPublishArticle: Scalars['Boolean'];
+  toggleLike: Scalars['Boolean'];
   updateArticle: Scalars['Boolean'];
 };
 
@@ -76,6 +78,11 @@ export type MutationSetPublishArticleArgs = {
 };
 
 
+export type MutationToggleLikeArgs = {
+  articleId: Scalars['Int'];
+};
+
+
 export type MutationUpdateArticleArgs = {
   author: Scalars['String'];
   id: Scalars['Int'];
@@ -90,6 +97,7 @@ export type Query = {
   articles: Array<Article>;
   articlesPublished: Array<Article>;
   categories: Array<Category>;
+  like: Scalars['Boolean'];
 };
 
 
@@ -102,9 +110,14 @@ export type QueryArticleBySlugArgs = {
   slug: Scalars['String'];
 };
 
+
+export type QueryLikeArgs = {
+  articleId: Scalars['Int'];
+};
+
 export type ArticleSnippetFragment = { __typename?: 'Article', id: number, slug: string, title: string, createdAt: any, updatedAt: any, contentShort: string, published: boolean };
 
-export type DefaultArticleFragment = { __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean };
+export type DefaultArticleFragment = { __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean, likeCounter: number };
 
 export type CreateArticleMutationVariables = Exact<{
   author: Scalars['String'];
@@ -113,7 +126,7 @@ export type CreateArticleMutationVariables = Exact<{
 }>;
 
 
-export type CreateArticleMutation = { __typename?: 'Mutation', createArticle?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean } | null };
+export type CreateArticleMutation = { __typename?: 'Mutation', createArticle?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean, likeCounter: number } | null };
 
 export type DeleteArticleMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -139,6 +152,13 @@ export type SetPublishedArticleMutationVariables = Exact<{
 
 export type SetPublishedArticleMutation = { __typename?: 'Mutation', setPublishArticle: boolean };
 
+export type ToggleLikeMutationVariables = Exact<{
+  articleId: Scalars['Int'];
+}>;
+
+
+export type ToggleLikeMutation = { __typename?: 'Mutation', toggleLike: boolean };
+
 export type UpdateArticleMutationVariables = Exact<{
   id: Scalars['Int'];
   author: Scalars['String'];
@@ -154,14 +174,14 @@ export type ArticleQueryVariables = Exact<{
 }>;
 
 
-export type ArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean } | null };
+export type ArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean, likeCounter: number } | null };
 
 export type ArticleBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type ArticleBySlugQuery = { __typename?: 'Query', articleBySlug?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean } | null };
+export type ArticleBySlugQuery = { __typename?: 'Query', articleBySlug?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean, likeCounter: number } | null };
 
 export type ArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -172,6 +192,13 @@ export type ArticlesPublishedQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ArticlesPublishedQuery = { __typename?: 'Query', articlesPublished: Array<{ __typename?: 'Article', id: number, slug: string, title: string, createdAt: any, updatedAt: any, contentShort: string, published: boolean }> };
+
+export type LikeQueryVariables = Exact<{
+  articleId: Scalars['Int'];
+}>;
+
+
+export type LikeQuery = { __typename?: 'Query', like: boolean };
 
 export const ArticleSnippetFragmentDoc = gql`
     fragment ArticleSnippet on Article {
@@ -195,6 +222,7 @@ export const DefaultArticleFragmentDoc = gql`
   createdAt
   updatedAt
   published
+  likeCounter
 }
     `;
 export const CreateArticleDocument = gql`
@@ -234,6 +262,15 @@ export const SetPublishedArticleDocument = gql`
 
 export function useSetPublishedArticleMutation() {
   return Urql.useMutation<SetPublishedArticleMutation, SetPublishedArticleMutationVariables>(SetPublishedArticleDocument);
+};
+export const ToggleLikeDocument = gql`
+    mutation ToggleLike($articleId: Int!) {
+  toggleLike(articleId: $articleId)
+}
+    `;
+
+export function useToggleLikeMutation() {
+  return Urql.useMutation<ToggleLikeMutation, ToggleLikeMutationVariables>(ToggleLikeDocument);
 };
 export const UpdateArticleDocument = gql`
     mutation UpdateArticle($id: Int!, $author: String!, $title: String!, $markdown: String!) {
@@ -287,6 +324,15 @@ export const ArticlesPublishedDocument = gql`
 
 export function useArticlesPublishedQuery(options?: Omit<Urql.UseQueryArgs<ArticlesPublishedQueryVariables>, 'query'>) {
   return Urql.useQuery<ArticlesPublishedQuery>({ query: ArticlesPublishedDocument, ...options });
+};
+export const LikeDocument = gql`
+    query Like($articleId: Int!) {
+  like(articleId: $articleId)
+}
+    `;
+
+export function useLikeQuery(options: Omit<Urql.UseQueryArgs<LikeQueryVariables>, 'query'>) {
+  return Urql.useQuery<LikeQuery>({ query: LikeDocument, ...options });
 };
 import { IntrospectionQuery } from 'graphql';
 export default {
@@ -367,6 +413,17 @@ export default {
           },
           {
             "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "likeCounter",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -644,6 +701,28 @@ export default {
             ]
           },
           {
+            "name": "toggleLike",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": [
+              {
+                "name": "articleId",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "updateArticle",
             "type": {
               "kind": "NON_NULL",
@@ -795,6 +874,28 @@ export default {
               }
             },
             "args": []
+          },
+          {
+            "name": "like",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": [
+              {
+                "name": "articleId",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
           }
         ],
         "interfaces": []

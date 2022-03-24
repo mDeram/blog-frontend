@@ -2,8 +2,10 @@ import React from "react";
 import parseHtml from "html-react-parser";
 import { formatDateDefault } from "../utils/formatDateDefault";
 import styles from "../styles/Article.module.scss";
+import Like from "../components/Like";
 
 interface ArticleProps {
+    id: number;
     title: string;
     content: string;
     author: string;
@@ -12,6 +14,7 @@ interface ArticleProps {
 }
 
 const Article: React.FC<ArticleProps> = ({
+    id,
     title,
     content,
     author,
@@ -35,6 +38,7 @@ const Article: React.FC<ArticleProps> = ({
                 <p>by {author}</p>
             </div>
             <div className={styles.content}>{parseHtml(content)}</div>
+            <Like articleId={id} />
         </div>
     )
 }

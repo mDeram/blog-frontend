@@ -28,7 +28,8 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({
         markdown: "",
         published: false,
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        likeCounter: 0
     });
 
     function handleArticleChange(changes: Partial<Article>) {

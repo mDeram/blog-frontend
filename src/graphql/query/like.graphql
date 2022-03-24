@@ -1,0 +1,3 @@
+query Like($articleId: Int!) {
+	like(articleId: $articleId)
+}

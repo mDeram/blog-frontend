@@ -1,6 +1,6 @@
 import { dedupExchange, fetchExchange } from "urql";
 import { cacheExchange } from "@urql/exchange-graphcache";
-import { Article, ArticlesDocument, ArticlesQuery } from "../generated/graphql";
+import { Article, ArticlesDocument, ArticlesQuery, LikeDocument, LikeQuery } from "../generated/graphql";
 import schema from "../generated/graphql";
 import { NextUrqlClientConfig } from "next-urql";
 import { transformToDate } from "../cache/transformToDate";
@@ -72,6 +72,16 @@ const createUrqlClient: NextUrqlClientConfig = (ssrExchange) => ({
 
                             const result = data?.articles.find(article => article.id === args.id) as Article;
                             result.published = args.published as boolean;
+                            return data;
+                        });
+                    },
+                    toggleLike: (_result, args, cache, info) => {
+                        cache.updateQuery({ query: LikeDocument, variables: { articleId: args.articleId } }, data => {
+                            if (!_result.toggleLike) return data;
+
+                            if (data)
+                                data.like = !data.like;
+
                             return data;
                         });
                     }

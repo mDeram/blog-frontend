@@ -8,4 +8,5 @@ fragment DefaultArticle on Article {
     createdAt
     updatedAt
     published
+    likeCounter
 }
