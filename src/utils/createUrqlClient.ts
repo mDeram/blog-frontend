@@ -15,20 +15,6 @@ const createUrqlClient: NextUrqlClientConfig = (ssrExchange) => ({
         dedupExchange,
         cacheExchange({
             schema,
-            /*resolvers: {
-                Query: {
-                    article: (parent, args, cache, info) => {
-                        const articles = cache.inspectFields("Query")
-                            .find(field => field.fieldName === "articles");
-                        console.log(articles);
-                        const art = cache.resolve("Query", "articles");
-                        console.log(art);
-                            //?.find((article: Article) => article.id === args.id);
-                        if (!articles) return null;
-                        return null;
-                    }
-                }
-            },*/
             resolvers: {
                 Article: {
                     updatedAt: transformToDate,
@@ -46,10 +32,12 @@ const createUrqlClient: NextUrqlClientConfig = (ssrExchange) => ({
             updates: {
                 Mutation: {
                     createArticle: (_result, args, cache, info) => {
-                        cache.updateQuery<ArticlesQuery>({ query: ArticlesDocument }, data => {
-                            if (!_result.createArticle) return data;
+                        if (!_result.createArticle) return;
 
-                            data?.articles.push(_result.createArticle as Article);
+                        cache.updateQuery<ArticlesQuery>({ query: ArticlesDocument }, data => {
+                            if (!data) return null;
+
+                            data.articles.push(_result.createArticle as Article);
                             return data;
                         });
                     },
@@ -59,29 +47,33 @@ const createUrqlClient: NextUrqlClientConfig = (ssrExchange) => ({
                         cache.invalidate("Query", "article", { id: args.id });
                     },
                     deleteArticle: (_result, args, cache, info) => {
-                        cache.updateQuery<ArticlesQuery>({ query: ArticlesDocument }, data => {
-                            if (!_result.deleteArticle) return data;
+                        if (!_result.deleteArticle) return;
 
-                            const result = data?.articles.filter(article => article.id !== args.id);
+                        cache.updateQuery<ArticlesQuery>({ query: ArticlesDocument }, data => {
+                            if (!data) return null;
+
+                            const result = data.articles.filter(article => article.id !== args.id);
                             return { articles: result } as ArticlesQuery;
                         });
                     },
                     setPublishArticle: (_result, args, cache, info) => {
-                        cache.updateQuery<ArticlesQuery>({ query: ArticlesDocument }, data => {
-                            if (!_result.setPublishArticle) return data;
+                        if (!_result.setPublishArticle) return;
 
-                            const result = data?.articles.find(article => article.id === args.id) as Article;
+                        cache.updateQuery<ArticlesQuery>({ query: ArticlesDocument }, data => {
+                            if (!data) return null;
+
+                            const result = data.articles.find(article => article.id === args.id) as Article;
                             result.published = args.published as boolean;
                             return data;
                         });
                     },
                     toggleLike: (_result, args, cache, info) => {
+                        if (!_result.toggleLike) return;
+
                         cache.updateQuery({ query: LikeDocument, variables: { articleId: args.articleId } }, data => {
-                            if (!_result.toggleLike) return data;
+                            if (!data) return null;
 
-                            if (data)
-                                data.like = !data.like;
-
+                            data.like = !data.like;
                             return data;
                         });
                     }
