@@ -6,6 +6,7 @@ import createUrqlClient from "../../utils/createUrqlClient";
 import { initUrqlClient, withUrqlClient } from "next-urql";
 import { cacheExchange, dedupExchange, fetchExchange, ssrExchange } from "urql";
 import Layout from "../../components/Layout";
+import Like from "../../components/Like";
 
 const Article: NextPage<{ slug: string }> = ({ slug }) => {
     const [{ data }] = useArticleBySlugQuery({ variables: { slug } });
@@ -13,7 +14,10 @@ const Article: NextPage<{ slug: string }> = ({ slug }) => {
     return (
         <Layout>
             {data?.articleBySlug &&
+                <>
                 <ArticleComponent { ...data.articleBySlug }/>
+                <Like articleId={data.articleBySlug.id}/>
+                </>
             }
         </Layout>
     );

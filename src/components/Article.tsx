@@ -38,7 +38,6 @@ const Article: React.FC<ArticleProps> = ({
                 <p>by {author}</p>
             </div>
             <div className={styles.content}>{parseHtml(content)}</div>
-            <Like articleId={id} />
         </div>
     )
 }
