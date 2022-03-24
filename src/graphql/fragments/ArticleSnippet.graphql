@@ -6,4 +6,5 @@ fragment ArticleSnippet on Article {
     updatedAt
     contentShort
     published
+    likeCounter
 }

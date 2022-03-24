@@ -115,7 +115,7 @@ export type QueryLikeArgs = {
   articleId: Scalars['Int'];
 };
 
-export type ArticleSnippetFragment = { __typename?: 'Article', id: number, slug: string, title: string, createdAt: any, updatedAt: any, contentShort: string, published: boolean };
+export type ArticleSnippetFragment = { __typename?: 'Article', id: number, slug: string, title: string, createdAt: any, updatedAt: any, contentShort: string, published: boolean, likeCounter: number };
 
 export type DefaultArticleFragment = { __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean, likeCounter: number };
 
@@ -186,12 +186,12 @@ export type ArticleBySlugQuery = { __typename?: 'Query', articleBySlug?: { __typ
 export type ArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ArticlesQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'Article', id: number, slug: string, title: string, createdAt: any, updatedAt: any, contentShort: string, published: boolean }> };
+export type ArticlesQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'Article', id: number, slug: string, title: string, createdAt: any, updatedAt: any, contentShort: string, published: boolean, likeCounter: number }> };
 
 export type ArticlesPublishedQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ArticlesPublishedQuery = { __typename?: 'Query', articlesPublished: Array<{ __typename?: 'Article', id: number, slug: string, title: string, createdAt: any, updatedAt: any, contentShort: string, published: boolean }> };
+export type ArticlesPublishedQuery = { __typename?: 'Query', articlesPublished: Array<{ __typename?: 'Article', id: number, slug: string, title: string, createdAt: any, updatedAt: any, contentShort: string, published: boolean, likeCounter: number }> };
 
 export type LikeQueryVariables = Exact<{
   articleId: Scalars['Int'];
@@ -209,6 +209,7 @@ export const ArticleSnippetFragmentDoc = gql`
   updatedAt
   contentShort
   published
+  likeCounter
 }
     `;
 export const DefaultArticleFragmentDoc = gql`

@@ -9,6 +9,7 @@ import ArticleActions from "../../components/ArticleActions";
 import Layout from "../../components/Layout";
 import styles from "../../styles/Editor.module.scss";
 import { HiOutlinePencilAlt } from "react-icons/hi";
+import LikeCounter from "../../components/LikeCounter";
 
 const Editor: React.FC = () => {
     const [{ data, fetching }] = useArticlesQuery();
@@ -43,15 +44,18 @@ const Editor: React.FC = () => {
             </div>
             <div>
                 {data?.articles.map(article =>
-                    <div key={article.id} className={styles.articleEditBox}>
-                        <ArticleCard
-                            { ...article }
-                            link={`/editor/article/${article.id}`}
-                        />
-                        <ArticleActions
-                            deleteArticle={() => handleTryDeleteArticle(article.id, article.title)}
-                            { ...article }
-                        />
+                    <div key={article.id}>
+                        <div className={styles.articleEditBox}>
+                            <ArticleCard
+                                { ...article }
+                                link={`/editor/article/${article.id}`}
+                            />
+                            <ArticleActions
+                                deleteArticle={() => handleTryDeleteArticle(article.id, article.title)}
+                                { ...article }
+                            />
+                        </div>
+                        <LikeCounter likeCounter={article.likeCounter}/>
                     </div>
                 )}
             </div>
