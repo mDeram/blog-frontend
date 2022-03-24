@@ -8,7 +8,7 @@ import { withUrqlClient } from "next-urql";
 import ArticleActions from "../../components/ArticleActions";
 import Layout from "../../components/Layout";
 import styles from "../../styles/Editor.module.scss";
-import { IMG_PATH } from "../../constants";
+import { HiOutlinePencilAlt } from "react-icons/hi";
 
 const Editor: React.FC = () => {
     const [{ data, fetching }] = useArticlesQuery();
@@ -38,7 +38,7 @@ const Editor: React.FC = () => {
         <Layout title="mDeram's blog editor">
             <div className={styles.createArticle}>
                 <Link href="/editor/create"><a>
-                    Create an article <img src={IMG_PATH + "/icons/pen-to-square-regular.svg"} alt={`create article`}/>
+                    Create an article <HiOutlinePencilAlt title="Create Article"/>
                 </a></Link>
             </div>
             <div>

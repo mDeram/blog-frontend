@@ -1,6 +1,6 @@
 import { pushNotificationError, pushNotificationSuccess } from "../utils/defaultNotifications";
 import { useSetPublishedArticleMutation } from "../generated/graphql";
-import { IMG_PATH } from "../constants";
+import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
 
 interface PublishProps {
     id: number;
@@ -30,8 +30,8 @@ const Publish: React.FC<PublishProps> = ({
     return (
         <>
             {published
-                ? <img onClick={_ => handlePublish(false)} src={IMG_PATH + "/icons/eye-regular.svg"} alt={`unpublish article ${id}`}/>
-                : <img onClick={_ => handlePublish(true)} src={IMG_PATH + "/icons/eye-slash-regular.svg"} alt={`publish article ${id}`}/>
+                ? <HiOutlineEye className="action" onClick={_ => handlePublish(false)} title="Unpublish"/>
+                : <HiOutlineEyeOff className="action" onClick={_ => handlePublish(true)} title="Publish"/>
             }
         </>
     )

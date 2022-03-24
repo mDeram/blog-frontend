@@ -1,8 +1,8 @@
 import Link from "next/link";
 import React from "react";
-import { IMG_PATH } from "../constants";
 import Publish from "../components/Publish";
 import styles from "../styles/ArticleActions.module.scss";
+import { HiOutlineXCircle, HiOutlinePencilAlt } from "react-icons/hi";
 
 interface ArticleActionsProps {
     id: number;
@@ -19,8 +19,8 @@ const ArticleActions: React.FC<ArticleActionsProps> = ({
         <div className={styles.articleActions}>
             {/* Preview popup */}
             <Publish id={id} published={published} />
-            <Link href={`/editor/article/${id}`}><a><img src={IMG_PATH + "/icons/keyboard-regular.svg"} alt={`edit article ${id}`}/></a></Link>
-            <img onClick={deleteArticle} src={IMG_PATH + "/icons/trash-can-regular.svg"} alt={`delete article ${id}`}/>
+            <Link href={`/editor/article/${id}`}><a><HiOutlinePencilAlt title="Edit"/></a></Link>
+            <HiOutlineXCircle className={styles.delete + " action"} onClick={deleteArticle} title="Delete"/>
         </div>
     )
 }

@@ -5,7 +5,6 @@ import { pushNotificationError, pushNotificationSuccess } from "../../../utils/d
 import ArticleEditor from "../../../components/ArticleEditor";
 import createUrqlClient from "../../../utils/createUrqlClient";
 import { withUrqlClient } from "next-urql";
-import Header from "src/components/Header";
 
 //TODO SSR
 

@@ -9,11 +9,11 @@
     display: flex;
     flex-direction: column;
 
-    img, a {
-        display: block;
-        margin-top: 5px;
+    svg {
+        font-size: 1.5rem;
     }
-    img:hover {
-        cursor: pointer;
+
+    .delete:hover {
+        color: $color-error;
     }
 }

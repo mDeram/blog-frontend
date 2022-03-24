@@ -18,8 +18,8 @@ const Like: React.FC<LikeProps> = ({
     return (
         <>
             {data?.like
-                ? <AiFillHeart onClick={handleLike}/>
-                : <AiOutlineHeart onClick={handleLike}/>
+                ? <AiFillHeart className="action" onClick={handleLike} title="UnLike"/>
+                : <AiOutlineHeart className="action" onClick={handleLike} title="Like"/>
             }
         </>
     )
