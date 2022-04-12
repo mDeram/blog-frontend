@@ -7,11 +7,14 @@ import { initUrqlClient, withUrqlClient } from "next-urql";
 import { cacheExchange, dedupExchange, fetchExchange, ssrExchange } from "urql";
 import Layout from "../../components/Layout";
 import Like from "../../components/Like";
+import Title from "../../components/Title";
 
 const Article: NextPage<{ slug: string }> = ({ slug }) => {
     const [{ data }] = useArticleBySlugQuery({ variables: { slug } });
 
     return (
+        <>
+        <Title prefix={data?.articleBySlug?.title} />
         <Layout>
             {data?.articleBySlug &&
                 <>
@@ -20,6 +23,7 @@ const Article: NextPage<{ slug: string }> = ({ slug }) => {
                 </>
             }
         </Layout>
+        </>
     );
 }
 

@@ -18,12 +18,20 @@
         margin-bottom: 1rem;
     }
 
+    code {
+        border-radius: 3px;
+    }
+
     a {
         color: darkblue;
     }
 
     a:hover {
         text-decoration: underline;
+    }
+
+    pre {
+        overflow-x: auto;
     }
 
     .details {
