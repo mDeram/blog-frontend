@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import parseHtml from "html-react-parser";
 import { formatDateDefault } from "../utils/formatDateDefault";
 import styles from "../styles/Article.module.scss";
-import Like from "../components/Like";
+import hljs from "highlight.js";
+import "highlight.js/styles/monokai.css";
 
 interface ArticleProps {
     id: number;
@@ -21,6 +22,11 @@ const Article: React.FC<ArticleProps> = ({
     createdAt,
     updatedAt
 }) => {
+    useEffect(() => {
+        document.querySelectorAll("pre code").forEach(block => {
+            hljs.highlightElement(block as HTMLElement);
+        });
+    }, [content]);
 
     function getDate() {
         let createdAtFormated = formatDateDefault(createdAt);
