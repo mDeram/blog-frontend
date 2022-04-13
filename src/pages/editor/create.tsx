@@ -13,6 +13,7 @@ const CreateArticle: React.FC = () => {
     async function handleCreateArticle(data: any) {
         const result = await createArticle(data);
         const isArticleCreated = !!result.data?.createArticle;
+
         if (isArticleCreated) {
             pushNotificationSuccess(`Article as been created`);
             router.push(`/editor/article/${result.data!.createArticle!.id}`)

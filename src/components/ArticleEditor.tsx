@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { customSlugify } from "../utils/customSlugify";
 import ArticleEditorForm from "../components/ArticleEditorForm";
 import ArticleComponent from "../components/Article";
@@ -8,10 +8,12 @@ import styles from "../styles/ArticleEditor.module.scss";
 import Header from "../components/Header";
 import Link from "next/link";
 import { isEqual } from "lodash";
+import { pushNotificationSuccess } from "../utils/defaultNotifications";
+import LocalArticle from "../components/LocalArticle";
 
 interface ArticleEditorProps {
     initialArticle?: DefaultArticleFragment;
-    saveArticle: (article: any) => any;
+    saveArticle: (article: any) => boolean;
 }
 
 const ArticleEditor: React.FC<ArticleEditorProps> = ({
@@ -30,6 +32,7 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({
         updatedAt: new Date(),
         likeCounter: 0
     });
+    const [savedArticle, setSavedArticle] = useState<DefaultArticleFragment>(article);
 
     function handleArticleChange(changes: Partial<Article>) {
         setArticle(article => {
@@ -44,24 +47,33 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({
     }
 
     function handleSave() {
-        saveArticle({
+        if (isEqual(article, savedArticle)) {
+            pushNotificationSuccess(`Article is already saved`);
+            return;
+        }
+
+        const isSaved = saveArticle({
             id: article.id,
             author:  article.author,
             title: article.title,
             markdown: article.markdown,
             description: article.description
         });
+
+        if (!isSaved) return;
+
+        setSavedArticle({ ...article });
     }
 
     function renderDiscardOrBack() {
-        if (!isEqual(article, initialArticle))
+        if (!isEqual(article, savedArticle))
             return <Discard />
 
         return <Link href="/editor"><a>Back</a></Link>
     }
 
     return (
-        <div>
+        <LocalArticle article={article} handleArticleChange={handleArticleChange}>
             <Header title={`editing article "${article.title.slice(0, 50)}"`}/>
             <div className={styles.editorContainer}>
                 <div className={styles.editorContainerChild}>
@@ -75,7 +87,7 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({
                 {renderDiscardOrBack()}
                 <button onClick={handleSave}>Save</button>
             </div>
-        </div>
+        </LocalArticle>
     );
 }
 

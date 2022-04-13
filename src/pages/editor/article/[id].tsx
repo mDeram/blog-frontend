@@ -19,8 +19,9 @@ const EditArticle: NextPage<{ id: number }> = ({ id }) => {
 
     async function handleSaveArticle(data: any) {
         const result = await updateArticle(data);
+        const isArticleSaved = !!result.data?.updateArticle;
 
-        if (result.data?.updateArticle) {
+        if (isArticleSaved) {
             pushNotificationSuccess(`Article as been saved`);
         } else {
             const error = result.error || "server error";
@@ -29,6 +30,8 @@ const EditArticle: NextPage<{ id: number }> = ({ id }) => {
                 Error: ${error}
             `);
         }
+
+        return isArticleSaved;
     }
 
     return (
