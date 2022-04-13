@@ -1,5 +1,5 @@
-mutation CreateArticle($author: String!, $title: String!, $markdown: String!) {
-	createArticle(author: $author, title: $title, markdown: $markdown) {
+mutation CreateArticle($author: String!, $title: String!, $markdown: String!, $description: String!) {
+	createArticle(author: $author, title: $title, markdown: $markdown, description: $description) {
         ...DefaultArticle
     }
 }

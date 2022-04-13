@@ -21,8 +21,8 @@ export type Article = {
   __typename?: 'Article';
   author: Scalars['String'];
   categories: Array<Category>;
-  contentShort: Scalars['String'];
   createdAt: Scalars['DateTime'];
+  description: Scalars['String'];
   id: Scalars['Int'];
   likeCounter: Scalars['Int'];
   markdown: Scalars['String'];
@@ -54,6 +54,7 @@ export type Mutation = {
 
 export type MutationCreateArticleArgs = {
   author: Scalars['String'];
+  description: Scalars['String'];
   markdown: Scalars['String'];
   title: Scalars['String'];
 };
@@ -84,6 +85,7 @@ export type MutationToggleLikeArgs = {
 
 export type MutationUpdateArticleArgs = {
   author: Scalars['String'];
+  description: Scalars['String'];
   id: Scalars['Int'];
   markdown: Scalars['String'];
   title: Scalars['String'];
@@ -114,18 +116,19 @@ export type QueryLikeArgs = {
   articleId: Scalars['Int'];
 };
 
-export type ArticleSnippetFragment = { __typename?: 'Article', id: number, slug: string, title: string, createdAt: any, updatedAt: any, contentShort: string, published: boolean, likeCounter: number };
+export type ArticleSnippetFragment = { __typename?: 'Article', id: number, slug: string, title: string, createdAt: any, updatedAt: any, description: string, published: boolean, likeCounter: number };
 
-export type DefaultArticleFragment = { __typename?: 'Article', id: number, author: string, title: string, slug: string, markdown: string, createdAt: any, updatedAt: any, published: boolean, likeCounter: number };
+export type DefaultArticleFragment = { __typename?: 'Article', id: number, author: string, title: string, slug: string, markdown: string, description: string, createdAt: any, updatedAt: any, published: boolean, likeCounter: number };
 
 export type CreateArticleMutationVariables = Exact<{
   author: Scalars['String'];
   title: Scalars['String'];
   markdown: Scalars['String'];
+  description: Scalars['String'];
 }>;
 
 
-export type CreateArticleMutation = { __typename?: 'Mutation', createArticle?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, markdown: string, createdAt: any, updatedAt: any, published: boolean, likeCounter: number } | null };
+export type CreateArticleMutation = { __typename?: 'Mutation', createArticle?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, markdown: string, description: string, createdAt: any, updatedAt: any, published: boolean, likeCounter: number } | null };
 
 export type DeleteArticleMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -163,6 +166,7 @@ export type UpdateArticleMutationVariables = Exact<{
   author: Scalars['String'];
   title: Scalars['String'];
   markdown: Scalars['String'];
+  description: Scalars['String'];
 }>;
 
 
@@ -173,24 +177,24 @@ export type ArticleQueryVariables = Exact<{
 }>;
 
 
-export type ArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, markdown: string, createdAt: any, updatedAt: any, published: boolean, likeCounter: number } | null };
+export type ArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, markdown: string, description: string, createdAt: any, updatedAt: any, published: boolean, likeCounter: number } | null };
 
 export type ArticleBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type ArticleBySlugQuery = { __typename?: 'Query', articleBySlug?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, markdown: string, createdAt: any, updatedAt: any, published: boolean, likeCounter: number } | null };
+export type ArticleBySlugQuery = { __typename?: 'Query', articleBySlug?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, markdown: string, description: string, createdAt: any, updatedAt: any, published: boolean, likeCounter: number } | null };
 
 export type ArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ArticlesQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'Article', id: number, slug: string, title: string, createdAt: any, updatedAt: any, contentShort: string, published: boolean, likeCounter: number }> };
+export type ArticlesQuery = { __typename?: 'Query', articles: Array<{ __typename?: 'Article', id: number, slug: string, title: string, createdAt: any, updatedAt: any, description: string, published: boolean, likeCounter: number }> };
 
 export type ArticlesPublishedQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ArticlesPublishedQuery = { __typename?: 'Query', articlesPublished: Array<{ __typename?: 'Article', id: number, slug: string, title: string, createdAt: any, updatedAt: any, contentShort: string, published: boolean, likeCounter: number }> };
+export type ArticlesPublishedQuery = { __typename?: 'Query', articlesPublished: Array<{ __typename?: 'Article', id: number, slug: string, title: string, createdAt: any, updatedAt: any, description: string, published: boolean, likeCounter: number }> };
 
 export type LikeQueryVariables = Exact<{
   articleId: Scalars['Int'];
@@ -206,7 +210,7 @@ export const ArticleSnippetFragmentDoc = gql`
   title
   createdAt
   updatedAt
-  contentShort
+  description
   published
   likeCounter
 }
@@ -218,6 +222,7 @@ export const DefaultArticleFragmentDoc = gql`
   title
   slug
   markdown
+  description
   createdAt
   updatedAt
   published
@@ -225,8 +230,13 @@ export const DefaultArticleFragmentDoc = gql`
 }
     `;
 export const CreateArticleDocument = gql`
-    mutation CreateArticle($author: String!, $title: String!, $markdown: String!) {
-  createArticle(author: $author, title: $title, markdown: $markdown) {
+    mutation CreateArticle($author: String!, $title: String!, $markdown: String!, $description: String!) {
+  createArticle(
+    author: $author
+    title: $title
+    markdown: $markdown
+    description: $description
+  ) {
     ...DefaultArticle
   }
 }
@@ -272,8 +282,14 @@ export function useToggleLikeMutation() {
   return Urql.useMutation<ToggleLikeMutation, ToggleLikeMutationVariables>(ToggleLikeDocument);
 };
 export const UpdateArticleDocument = gql`
-    mutation UpdateArticle($id: Int!, $author: String!, $title: String!, $markdown: String!) {
-  updateArticle(id: $id, author: $author, title: $title, markdown: $markdown)
+    mutation UpdateArticle($id: Int!, $author: String!, $title: String!, $markdown: String!, $description: String!) {
+  updateArticle(
+    id: $id
+    author: $author
+    title: $title
+    markdown: $markdown
+    description: $description
+  )
 }
     `;
 
@@ -378,7 +394,7 @@ export default {
             "args": []
           },
           {
-            "name": "contentShort",
+            "name": "createdAt",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -389,7 +405,7 @@ export default {
             "args": []
           },
           {
-            "name": "createdAt",
+            "name": "description",
             "type": {
               "kind": "NON_NULL",
               "ofType": {
@@ -571,6 +587,16 @@ export default {
                 }
               },
               {
+                "name": "description",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
                 "name": "markdown",
                 "type": {
                   "kind": "NON_NULL",
@@ -722,6 +748,16 @@ export default {
             "args": [
               {
                 "name": "author",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              },
+              {
+                "name": "description",
                 "type": {
                   "kind": "NON_NULL",
                   "ofType": {

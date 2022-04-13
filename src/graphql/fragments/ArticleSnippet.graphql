@@ -4,7 +4,7 @@ fragment ArticleSnippet on Article {
     title
     createdAt
     updatedAt
-    contentShort
+    description
     published
     likeCounter
 }

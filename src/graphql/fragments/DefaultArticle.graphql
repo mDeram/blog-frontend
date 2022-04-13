@@ -4,6 +4,7 @@ fragment DefaultArticle on Article {
     title
     slug
     markdown
+    description
     createdAt
     updatedAt
     published

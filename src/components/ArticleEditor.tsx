@@ -23,6 +23,7 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({
         author: "",
         slug: "",
         title: "",
+        description: "",
         markdown: "",
         published: false,
         createdAt: new Date(),
@@ -47,7 +48,8 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({
             id: article.id,
             author:  article.author,
             title: article.title,
-            markdown: article.markdown
+            markdown: article.markdown,
+            description: article.description
         });
     }
 
