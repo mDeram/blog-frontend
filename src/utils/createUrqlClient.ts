@@ -51,8 +51,8 @@ const createUrqlClient: NextUrqlClientConfig = (ssrExchange) => ({
                         cache.updateQuery<ArticlesQuery>({ query: ArticlesDocument }, data => {
                             if (!data) return null;
 
-                            const result = data.articles.filter(article => article.id !== args.id);
-                            return { articles: result } as ArticlesQuery;
+                            const filteredArticles = data.articles.filter(article => article.id !== args.id);
+                            return { articles: filteredArticles } as ArticlesQuery;
                         });
                     },
                     setPublishArticle: (result, args, cache, _info) => {
@@ -61,8 +61,8 @@ const createUrqlClient: NextUrqlClientConfig = (ssrExchange) => ({
                         cache.updateQuery<ArticlesQuery>({ query: ArticlesDocument }, data => {
                             if (!data) return null;
 
-                            const result = data.articles.find(article => article.id === args.id) as Article;
-                            result.published = args.published as boolean;
+                            const article = data.articles.find(article => article.id === args.id) as Article;
+                            article.published = args.published as boolean;
                             return data;
                         });
                     },

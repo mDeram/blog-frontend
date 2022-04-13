@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { customSlugify } from "../utils/customSlugify";
 import ArticleEditorForm from "../components/ArticleEditorForm";
 import ArticleComponent from "../components/Article";
-import { Article, DefaultArticleFragment, MutationCreateArticleArgs, MutationUpdateArticleArgs } from "../generated/graphql";
+import { Article, DefaultArticleFragment, MutationUpdateArticleArgs } from "../generated/graphql";
 import Discard from "../components/Discard";
 import styles from "../styles/ArticleEditor.module.scss";
 import Header from "../components/Header";
