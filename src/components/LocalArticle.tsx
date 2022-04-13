@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import RestoreEditionPopup from "src/components/RestoreEdition";
+import RestoreEditionPopup from "../components/RestoreEdition";
+import { isServer } from "../utils/isServer";
 import { Article, DefaultArticleFragment } from "../generated/graphql";
 
 interface LocalArticleProps {
@@ -30,6 +31,8 @@ const LocalArticle: React.FC<LocalArticleProps> = ({
 
 
     function loadArticleFromLocalStorage() {
+        if (isServer()) return;
+
         const rawLocalArticle = localStorage.getItem(`article:${article.id}`);
         if (!rawLocalArticle) return;
 
