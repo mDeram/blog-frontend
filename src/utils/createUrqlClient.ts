@@ -1,13 +1,12 @@
 import { dedupExchange, fetchExchange } from "urql";
 import { cacheExchange } from "@urql/exchange-graphcache";
-import { Article, ArticlesDocument, ArticlesQuery, LikeDocument, LikeQuery } from "../generated/graphql";
+import { Article, ArticlesDocument, ArticlesQuery, LikeDocument } from "../generated/graphql";
 import schema from "../generated/graphql";
 import { NextUrqlClientConfig } from "next-urql";
 import { transformToDate } from "../cache/transformToDate";
-import { ___prod___ } from "../constants";
 
 const createUrqlClient: NextUrqlClientConfig = (ssrExchange) => ({
-    url: ___prod___ ? "https://mderam.com/blog/graphql" : "http://localhost:7000/graphql",
+    url: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || "",
     fetchOptions: {
         credentials: "include"
     },
