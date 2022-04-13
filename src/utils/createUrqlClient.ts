@@ -37,13 +37,14 @@ const createUrqlClient: NextUrqlClientConfig = (ssrExchange) => ({
                         cache.updateQuery<ArticlesQuery>({ query: ArticlesDocument }, data => {
                             if (!data) return null;
 
-                            data.articles.push(_result.createArticle as Article);
+                            data.articles = [_result.createArticle as Article, ...data.articles];
                             return data;
                         });
                     },
                     updateArticle: (_result, args, cache, info) => {
                         if (!_result.updateArticle) return;
 
+                        cache.invalidate("Query", "articles");
                         cache.invalidate("Query", "article", { id: args.id });
                     },
                     deleteArticle: (_result, args, cache, info) => {

@@ -48,7 +48,7 @@ const Editor: React.FC = () => {
                         <div className={styles.articleEditBox}>
                             <ArticleCard
                                 { ...article }
-                                link={`/editor/article/${article.id}`}
+                                link={article.published ? `/article/${article.slug}` : null}
                             />
                             <ArticleActions
                                 deleteArticle={() => handleTryDeleteArticle(article.id, article.title)}

@@ -8,7 +8,7 @@ interface ArticleCardProps {
     createdAt: Date;
     updatedAt: Date;
     description: string;
-    link: string;
+    link: string | null;
 }
 
 const ArticleCard: React.FC<ArticleCardProps> = ({
@@ -17,15 +17,24 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
     description,
     link
 }) => {
+    function renderCard() {
+        return (
+            <>
+            <h2>{title}</h2>
+            <p className={styles.description}>{description}</p>
+            <p className={styles.createdAt}>{formatDateDefault(createdAt)}</p>
+            </>
+        );
+    }
+
     return (
         <div className={styles.articleCard}>
-            <Link href={link}><a>
-                <h2>{title}</h2>
-                <p className={styles.description}>{description}</p>
-                <p className={styles.createdAt}>{formatDateDefault(createdAt)}</p>
-            </a></Link>
+            {link
+                ? <Link  href={link}><a>{renderCard()}</a></Link>
+                : <div>{renderCard()}</div>
+            }
         </div>
-    )
+    );
 }
 
 export default ArticleCard;
