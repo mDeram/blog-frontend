@@ -13,7 +13,7 @@ import LocalArticle from "../components/LocalArticle";
 
 interface ArticleEditorProps {
     initialArticle?: DefaultArticleFragment;
-    saveArticle: (article: any) => boolean;
+    saveArticle: (article: any) => Promise<boolean>;
 }
 
 const ArticleEditor: React.FC<ArticleEditorProps> = ({
@@ -46,13 +46,13 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({
         });
     }
 
-    function handleSave() {
+    async function handleSave() {
         if (isEqual(article, savedArticle)) {
             pushNotificationSuccess(`Article is already saved`);
             return;
         }
 
-        const isSaved = saveArticle({
+        const isSaved = await saveArticle({
             id: article.id,
             author:  article.author,
             title: article.title,
