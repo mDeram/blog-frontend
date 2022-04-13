@@ -20,7 +20,7 @@ const createUrqlClient: NextUrqlClientConfig = (ssrExchange) => ({
                     createdAt: transformToDate,
                 },
                 Query: {
-                    article: (parent, args, cache, info) => {
+                    article: (_parent, args, _cache, _info) => {
                         return {
                             __typename: "Article",
                             id: args.id
@@ -30,24 +30,24 @@ const createUrqlClient: NextUrqlClientConfig = (ssrExchange) => ({
             },
             updates: {
                 Mutation: {
-                    createArticle: (_result, args, cache, info) => {
-                        if (!_result.createArticle) return;
+                    createArticle: (result, _args, cache, _info) => {
+                        if (!result.createArticle) return;
 
                         cache.updateQuery<ArticlesQuery>({ query: ArticlesDocument }, data => {
                             if (!data) return null;
 
-                            data.articles = [_result.createArticle as Article, ...data.articles];
+                            data.articles = [result.createArticle as Article, ...data.articles];
                             return data;
                         });
                     },
-                    updateArticle: (_result, args, cache, info) => {
-                        if (!_result.updateArticle) return;
+                    updateArticle: (result, args, cache, _info) => {
+                        if (!result.updateArticle) return;
 
                         cache.invalidate("Query", "articles");
                         cache.invalidate("Query", "article", { id: args.id });
                     },
-                    deleteArticle: (_result, args, cache, info) => {
-                        if (!_result.deleteArticle) return;
+                    deleteArticle: (result, args, cache, _info) => {
+                        if (!result.deleteArticle) return;
 
                         cache.updateQuery<ArticlesQuery>({ query: ArticlesDocument }, data => {
                             if (!data) return null;
@@ -56,8 +56,8 @@ const createUrqlClient: NextUrqlClientConfig = (ssrExchange) => ({
                             return { articles: result } as ArticlesQuery;
                         });
                     },
-                    setPublishArticle: (_result, args, cache, info) => {
-                        if (!_result.setPublishArticle) return;
+                    setPublishArticle: (result, args, cache, _info) => {
+                        if (!result.setPublishArticle) return;
 
                         cache.updateQuery<ArticlesQuery>({ query: ArticlesDocument }, data => {
                             if (!data) return null;
@@ -67,8 +67,8 @@ const createUrqlClient: NextUrqlClientConfig = (ssrExchange) => ({
                             return data;
                         });
                     },
-                    toggleLike: (_result, args, cache, info) => {
-                        if (!_result.toggleLike) return;
+                    toggleLike: (result, args, cache, _info) => {
+                        if (!result.toggleLike) return;
 
                         cache.updateQuery({ query: LikeDocument, variables: { articleId: args.articleId } }, data => {
                             if (!data) return null;
