@@ -2,11 +2,7 @@ import Link from "next/link";
 import React from "react";
 import Popup from "../components/Popup";
 
-interface DiscardProps {
-}
-
-const Discard: React.FC<DiscardProps> = ({
-}) => {
+const Discard: React.FC = () => {
     return (
         <Popup trigger={<button>Discard</button>}>
             {(close: () => void) => (
