@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import RestoreEditionPopup from "../components/RestoreEdition";
+import RestoreEditionPopup from "../components/RestoreEditionPopup";
 import { isServer } from "../utils/isServer";
 import { Article, DefaultArticleFragment } from "../generated/graphql";
 

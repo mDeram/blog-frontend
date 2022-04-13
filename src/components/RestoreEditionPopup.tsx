@@ -22,7 +22,7 @@ const RestoreEditionPopup: React.FC<RestoreEditionPopupProps> = ({
     }
 
     return (
-        <Popup openRef={openRef}>
+        <Popup openRef={openRef} closeOnDocumentClick={false}>
             {(close: () => void) => (
                 <div>
                     <p>Some unsaved data have been found {renderDate(date)}, would you like to restore it?</p>
