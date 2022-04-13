@@ -3,7 +3,6 @@ import { customSlugify } from "../utils/customSlugify";
 import ArticleEditorForm from "../components/ArticleEditorForm";
 import ArticleComponent from "../components/Article";
 import { Article, DefaultArticleFragment } from "../generated/graphql";
-import { marked } from "marked";
 import Discard from "../components/Discard";
 import styles from "../styles/ArticleEditor.module.scss";
 import Header from "../components/Header";
@@ -22,7 +21,6 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({
     const [article, setArticle] = useState<DefaultArticleFragment>(initialArticle || {
         id: 0,
         author: "",
-        content: "",
         slug: "",
         title: "",
         markdown: "",
@@ -36,8 +34,6 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({
         setArticle(article => {
             if (changes.title)
                 changes.slug = customSlugify(changes.title);
-            if (changes.markdown)
-                changes.content = marked.parse(changes.markdown);
 
             return {
                 ...article,

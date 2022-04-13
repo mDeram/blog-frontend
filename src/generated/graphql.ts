@@ -21,7 +21,6 @@ export type Article = {
   __typename?: 'Article';
   author: Scalars['String'];
   categories: Array<Category>;
-  content: Scalars['String'];
   contentShort: Scalars['String'];
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
@@ -117,7 +116,7 @@ export type QueryLikeArgs = {
 
 export type ArticleSnippetFragment = { __typename?: 'Article', id: number, slug: string, title: string, createdAt: any, updatedAt: any, contentShort: string, published: boolean, likeCounter: number };
 
-export type DefaultArticleFragment = { __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean, likeCounter: number };
+export type DefaultArticleFragment = { __typename?: 'Article', id: number, author: string, title: string, slug: string, markdown: string, createdAt: any, updatedAt: any, published: boolean, likeCounter: number };
 
 export type CreateArticleMutationVariables = Exact<{
   author: Scalars['String'];
@@ -126,7 +125,7 @@ export type CreateArticleMutationVariables = Exact<{
 }>;
 
 
-export type CreateArticleMutation = { __typename?: 'Mutation', createArticle?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean, likeCounter: number } | null };
+export type CreateArticleMutation = { __typename?: 'Mutation', createArticle?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, markdown: string, createdAt: any, updatedAt: any, published: boolean, likeCounter: number } | null };
 
 export type DeleteArticleMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -174,14 +173,14 @@ export type ArticleQueryVariables = Exact<{
 }>;
 
 
-export type ArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean, likeCounter: number } | null };
+export type ArticleQuery = { __typename?: 'Query', article?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, markdown: string, createdAt: any, updatedAt: any, published: boolean, likeCounter: number } | null };
 
 export type ArticleBySlugQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type ArticleBySlugQuery = { __typename?: 'Query', articleBySlug?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, content: string, markdown: string, createdAt: any, updatedAt: any, published: boolean, likeCounter: number } | null };
+export type ArticleBySlugQuery = { __typename?: 'Query', articleBySlug?: { __typename?: 'Article', id: number, author: string, title: string, slug: string, markdown: string, createdAt: any, updatedAt: any, published: boolean, likeCounter: number } | null };
 
 export type ArticlesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -218,7 +217,6 @@ export const DefaultArticleFragmentDoc = gql`
   author
   title
   slug
-  content
   markdown
   createdAt
   updatedAt
@@ -375,17 +373,6 @@ export default {
                     "ofType": null
                   }
                 }
-              }
-            },
-            "args": []
-          },
-          {
-            "name": "content",
-            "type": {
-              "kind": "NON_NULL",
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "Any"
               }
             },
             "args": []

@@ -1,32 +1,28 @@
-import React, { useEffect } from "react";
+import React from "react";
 import parseHtml from "html-react-parser";
 import { formatDateDefault } from "../utils/formatDateDefault";
 import styles from "../styles/Article.module.scss";
-import hljs from "highlight.js";
 import "highlight.js/styles/monokai.css";
+import marked from "../utils/markedConfig";
 
 interface ArticleProps {
-    id: number;
     title: string;
-    content: string;
+    markdown: string;
     author: string;
     createdAt: Date;
     updatedAt: Date;
 }
 
 const Article: React.FC<ArticleProps> = ({
-    id,
     title,
-    content,
+    markdown,
     author,
     createdAt,
     updatedAt
 }) => {
-    useEffect(() => {
-        document.querySelectorAll("pre code").forEach(block => {
-            hljs.highlightElement(block as HTMLElement);
-        });
-    }, [content]);
+    function getContent() {
+        return marked.parse(markdown);
+    }
 
     function getDate() {
         let createdAtFormated = formatDateDefault(createdAt);
@@ -43,7 +39,7 @@ const Article: React.FC<ArticleProps> = ({
                 <p>{getDate()}</p>
                 <p>by {author}</p>
             </div>
-            <div className={styles.content}>{parseHtml(content)}</div>
+            <div className={styles.content}>{parseHtml(getContent())}</div>
         </div>
     )
 }

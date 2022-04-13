@@ -3,7 +3,6 @@ fragment DefaultArticle on Article {
     author
     title
     slug
-    content
     markdown
     createdAt
     updatedAt
