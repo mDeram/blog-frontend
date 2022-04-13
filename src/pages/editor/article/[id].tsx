@@ -57,12 +57,6 @@ export const getServerSideProps: GetServerSideProps = async(context) => {
         id = parseInt(context.params?.id);
 
     /*
-    const ssrCache = ssrExchange({ isClient: false });
-    const client = initUrqlClient({
-        url: "http://localhost:7000/graphql",
-        exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
-    }, false);
-
     await client?.query(ArticleDocument, { id }).toPromise();
 
     return {

@@ -3,11 +3,11 @@ import React from "react";
 import { ArticleBySlugDocument, ArticlesPublishedDocument, useArticleBySlugQuery } from "../../generated/graphql";
 import ArticleComponent from "../../components/Article";
 import createUrqlClient from "../../utils/createUrqlClient";
-import { initUrqlClient, withUrqlClient } from "next-urql";
-import { cacheExchange, dedupExchange, fetchExchange, ssrExchange } from "urql";
+import { withUrqlClient } from "next-urql";
 import Layout from "../../components/Layout";
 import Like from "../../components/Like";
 import Title from "../../components/Title";
+import client, { ssrCache } from "../../utils/createUrqlClientOnServer";
 
 const Article: NextPage<{ slug: string }> = ({ slug }) => {
     const [{ data }] = useArticleBySlugQuery({ variables: { slug } });
@@ -28,12 +28,6 @@ const Article: NextPage<{ slug: string }> = ({ slug }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    const ssrCache = ssrExchange({ isClient: false });
-    const client = initUrqlClient({
-        url: "http://localhost:7000/graphql",
-        exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
-    }, false);
-
     const articles = await client?.query(ArticlesPublishedDocument).toPromise();
     const paths = articles?.data.articlesPublished
         .filter((article: any) => article.slug !== "")
@@ -62,12 +56,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     }
 
     const slug = params.slug;
-
-    const ssrCache = ssrExchange({ isClient: false });
-    const client = initUrqlClient({
-        url: "http://localhost:7000/graphql",
-        exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
-    }, false);
 
     const result = await client?.query(ArticleBySlugDocument, { slug }).toPromise();
     const isArticleFound = !!result?.data.articleBySlug;
