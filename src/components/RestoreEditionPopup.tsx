@@ -12,8 +12,7 @@ const RestoreEditionPopup: React.FC<RestoreEditionPopupProps> = ({
     openRef,
     date
 }) => {
-    function renderDate(date: any) {
-        console.log(date);
+    function renderDate() {
         if (!date) return;
         const parsedDate = new Date(date);
         const formatedDate = parsedDate.toLocaleString();
@@ -25,7 +24,7 @@ const RestoreEditionPopup: React.FC<RestoreEditionPopupProps> = ({
         <Popup openRef={openRef} closeOnDocumentClick={false}>
             {(close: () => void) => (
                 <div>
-                    <p>Some unsaved data have been found {renderDate(date)}, would you like to restore it?</p>
+                    <p>Some unsaved data have been found {renderDate()}, would you like to restore it?</p>
                     <button onClick={close}>No</button>
                     <button onClick={() => { restore(); close() }}>Yes</button>
                 </div>

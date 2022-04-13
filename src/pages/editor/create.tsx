@@ -1,5 +1,5 @@
 import React from "react";
-import { useCreateArticleMutation } from "../../generated/graphql";
+import { MutationCreateArticleArgs, useCreateArticleMutation } from "../../generated/graphql";
 import ArticleEditor from "../../components/ArticleEditor";
 import { useRouter } from "next/router";
 import { pushNotificationError, pushNotificationSuccess } from "../../utils/defaultNotifications";
@@ -10,8 +10,8 @@ const CreateArticle: React.FC = () => {
     const [,createArticle] = useCreateArticleMutation();
     const router = useRouter();
 
-    async function handleCreateArticle(data: any) {
-        const result = await createArticle(data);
+    async function handleCreateArticle(args: MutationCreateArticleArgs) {
+        const result = await createArticle(args);
         const isArticleCreated = !!result.data?.createArticle;
 
         if (isArticleCreated) {

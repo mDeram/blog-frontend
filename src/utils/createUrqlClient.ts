@@ -1,7 +1,6 @@
 import { dedupExchange, fetchExchange } from "urql";
 import { cacheExchange } from "@urql/exchange-graphcache";
-import { Article, ArticlesDocument, ArticlesQuery, LikeDocument } from "../generated/graphql";
-import schema from "../generated/graphql";
+import schema, { Article, ArticlesDocument, ArticlesQuery, LikeDocument } from "../generated/graphql";
 import { NextUrqlClientConfig } from "next-urql";
 import { transformToDate } from "../cache/transformToDate";
 

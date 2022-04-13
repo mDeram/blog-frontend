@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from "next";
 import React, { useEffect } from "react";
-import { useArticleQuery, useUpdateArticleMutation } from "../../../generated/graphql";
+import { MutationUpdateArticleArgs, useArticleQuery, useUpdateArticleMutation } from "../../../generated/graphql";
 import { pushNotificationError, pushNotificationSuccess } from "../../../utils/defaultNotifications";
 import ArticleEditor from "../../../components/ArticleEditor";
 import createUrqlClient from "../../../utils/createUrqlClient";
@@ -17,8 +17,8 @@ const EditArticle: NextPage<{ id: number }> = ({ id }) => {
             pushNotificationError(`Could not fetch article with id: ${id}`);
     }, [fetching, data, id]);
 
-    async function handleSaveArticle(data: any) {
-        const result = await updateArticle(data);
+    async function handleSaveArticle(args: MutationUpdateArticleArgs) {
+        const result = await updateArticle(args);
         const isArticleSaved = !!result.data?.updateArticle;
 
         if (isArticleSaved) {

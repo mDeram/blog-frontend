@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { customSlugify } from "../utils/customSlugify";
 import ArticleEditorForm from "../components/ArticleEditorForm";
 import ArticleComponent from "../components/Article";
-import { Article, DefaultArticleFragment } from "../generated/graphql";
+import { Article, DefaultArticleFragment, MutationCreateArticleArgs, MutationUpdateArticleArgs } from "../generated/graphql";
 import Discard from "../components/Discard";
 import styles from "../styles/ArticleEditor.module.scss";
 import Header from "../components/Header";
@@ -13,7 +13,7 @@ import LocalArticle from "../components/LocalArticle";
 
 interface ArticleEditorProps {
     initialArticle?: DefaultArticleFragment;
-    saveArticle: (article: any) => Promise<boolean>;
+    saveArticle: (article: MutationUpdateArticleArgs) => Promise<boolean>;
 }
 
 const ArticleEditor: React.FC<ArticleEditorProps> = ({
@@ -35,12 +35,12 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({
     const [savedArticle, setSavedArticle] = useState<DefaultArticleFragment>(article);
 
     function handleArticleChange(changes: Partial<Article>) {
-        setArticle(article => {
+        setArticle(prevArticle => {
             if (changes.title)
                 changes.slug = customSlugify(changes.title);
 
             return {
-                ...article,
+                ...prevArticle,
                 ...changes
             }
         });
