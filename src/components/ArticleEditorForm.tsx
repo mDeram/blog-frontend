@@ -1,4 +1,5 @@
 import React from "react";
+import { TAB_TO_SPACE } from "../constants";
 import { Article } from "../generated/graphql";
 
 interface ArticleEditorFormProps {
@@ -18,6 +19,14 @@ const ArticleEditorForm: React.FC<ArticleEditorFormProps> = ({
     markdown,
     slug
 }) => {
+    function tabToSpace(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+        if (e.key !== "Tab") return;
+
+        e.preventDefault();
+        handleChange({ markdown: markdown + TAB_TO_SPACE });
+    }
+
+
     return (
         <div>
             <input
@@ -45,6 +54,7 @@ const ArticleEditorForm: React.FC<ArticleEditorFormProps> = ({
                 id="markdown"
                 value={markdown}
                 onChange={e => handleChange({ markdown: e.target.value })}
+                onKeyDown={e => tabToSpace(e)}
                 placeholder="Write down your article using markdown"
             />
         </div>
