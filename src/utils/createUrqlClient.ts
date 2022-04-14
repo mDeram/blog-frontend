@@ -61,8 +61,8 @@ const createUrqlClient: NextUrqlClientConfig = (ssrExchange) => ({
                         cache.updateQuery<ArticlesQuery>({ query: ArticlesDocument }, data => {
                             if (!data) return null;
 
-                            const article = data.articles.find(article => article.id === args.id) as Article;
-                            article.published = args.published as boolean;
+                            const resultArticle = data.articles.find(article => article.id === args.id) as Article;
+                            resultArticle.published = args.published as boolean;
                             return data;
                         });
                     },

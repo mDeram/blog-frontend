@@ -51,7 +51,7 @@ const EditArticle: NextPage<{ id: number }> = ({ id }) => {
     );
 }
 
-export const getServerSideProps: GetServerSideProps = async(context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     let id = 0;
     if (typeof context.params?.id === "string")
         id = parseInt(context.params?.id);
