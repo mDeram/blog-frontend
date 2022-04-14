@@ -56,16 +56,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     if (typeof context.params?.id === "string")
         id = parseInt(context.params?.id);
 
-    /*
-    await client?.query(ArticleDocument, { id }).toPromise();
-
-    return {
-        props: {
-            id,
-            urqlState: ssrCache.extractData()
-        }
-    };
-    */
     return { props: { id } };
 }
 

@@ -5,7 +5,7 @@ import createUrqlClient from "../utils/createUrqlClient";
 import { withUrqlClient } from "next-urql";
 import Layout from "../components/Layout";
 import { GetStaticProps, NextPage } from "next";
-import client, { ssrCache } from "../utils/createUrqlClientOnServer";
+import createUrqlClientOnServer from "../utils/createUrqlClientOnServer";
 
 const Index: NextPage= () => {
     const [{ data }] = useArticlesPublishedQuery();
@@ -28,6 +28,7 @@ const Index: NextPage= () => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
+    const { client, ssrCache } = createUrqlClientOnServer();
     await client?.query(ArticlesPublishedDocument).toPromise();
 
     return {

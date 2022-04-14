@@ -7,7 +7,7 @@ import { withUrqlClient } from "next-urql";
 import Layout from "../../components/Layout";
 import Like from "../../components/Like";
 import Title from "../../components/Title";
-import client, { ssrCache } from "../../utils/createUrqlClientOnServer";
+import createUrqlClientOnServer from "../../utils/createUrqlClientOnServer";
 
 const Article: NextPage<{ slug: string }> = ({ slug }) => {
     const [{ data }] = useArticleBySlugQuery({ variables: { slug } });
@@ -28,6 +28,7 @@ const Article: NextPage<{ slug: string }> = ({ slug }) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
+    const { client } = createUrqlClientOnServer();
     const articles = await client?.query(ArticlesPublishedDocument).toPromise();
     const paths = articles?.data.articlesPublished
         .filter((article: any) => article.slug !== "")
@@ -57,6 +58,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     const slug = params.slug;
 
+    const { client, ssrCache } = createUrqlClientOnServer();
     const result = await client?.query(ArticleBySlugDocument, { slug }).toPromise();
     const isArticleFound = !!result?.data.articleBySlug;
 
