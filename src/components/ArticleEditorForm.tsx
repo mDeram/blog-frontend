@@ -1,4 +1,5 @@
-import React from "react";
+import React, { TextareaHTMLAttributes } from "react";
+import { useRef } from "react";
 import { TAB_TO_SPACE } from "../constants";
 import { Article } from "../generated/graphql";
 
@@ -23,9 +24,22 @@ const ArticleEditorForm: React.FC<ArticleEditorFormProps> = ({
         if (e.key !== "Tab") return;
 
         e.preventDefault();
-        handleChange({ markdown: markdown + TAB_TO_SPACE });
-    }
 
+        const target = e.currentTarget;
+        let caretPos = target.selectionStart;
+
+        // Inserting Tab
+        const value = markdown.substring(0, caretPos)
+                    + TAB_TO_SPACE
+                    + markdown.substring(target.selectionEnd);
+
+        // Changing caret position, setting value and setting value in React
+        caretPos = caretPos + TAB_TO_SPACE.length;
+        target.value = value;
+        target.selectionStart = caretPos;
+        target.selectionEnd = caretPos;
+        handleChange({ markdown: value });
+    }
 
     return (
         <div>
