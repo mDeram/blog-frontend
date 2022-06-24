@@ -1,7 +1,7 @@
-import React, { TextareaHTMLAttributes } from "react";
-import { useRef } from "react";
+import React from "react";
 import { TAB_TO_SPACE } from "../constants";
 import { Article } from "../generated/graphql";
+import styles from "../styles/ArticleEditor.module.scss";
 
 interface ArticleEditorFormProps {
     handleChange: (change: Partial<Article>) => void;
@@ -42,15 +42,17 @@ const ArticleEditorForm: React.FC<ArticleEditorFormProps> = ({
     }
 
     return (
-        <div>
-            <input
-                type="text"
-                id="title"
-                value={title}
-                onChange={e => handleChange({ title: e.target.value })}
-                placeholder="Title"
-            />
-            <p>slug: {slug}</p>
+        <div className={styles.editorForm}>
+            <div className={styles.editorSlug}>
+                <input
+                    type="text"
+                    id="title"
+                    value={title}
+                    onChange={e => handleChange({ title: e.target.value })}
+                    placeholder="Title"
+                />
+                <p>slug: {slug}</p>
+            </div>
             <input
                 type="text"
                 id="author"
@@ -65,6 +67,7 @@ const ArticleEditorForm: React.FC<ArticleEditorFormProps> = ({
                 placeholder="Write down a short description about your article"
             />
             <textarea
+                className={styles.editorMarkdown}
                 id="markdown"
                 value={markdown}
                 onChange={e => handleChange({ markdown: e.target.value })}

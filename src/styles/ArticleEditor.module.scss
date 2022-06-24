@@ -18,3 +18,23 @@
     position: fixed;
     bottom: 0px;
 }
+
+.editorForm {
+    height: 100%;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+}
+
+.editorSlug {
+    display: flex;
+    p {
+        margin-left: 2rem;
+    }
+}
+
+.editorMarkdown {
+    flex-grow: 1;
+    resize: vertical;
+}
