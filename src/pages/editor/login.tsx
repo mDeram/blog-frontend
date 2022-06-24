@@ -4,7 +4,7 @@ import { useLoginMutation } from "../../generated/graphql";
 import Layout from "../../components/Layout";
 import createUrqlClient from "../../utils/createUrqlClient";
 import router from "next/router";
-import { pushNotificationError } from "src/utils/defaultNotifications";
+import { pushNotificationError } from "../../utils/defaultNotifications";
 
 const Login: React.FC = () => {
     const [inputs, setInputs] = useState({ username: "", password: "", authToken: "" });
