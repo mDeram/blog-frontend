@@ -30,32 +30,40 @@ npm run gen
 
 ## Environment variables
 ### Private
-// It is used by the Incremental Static Regeneration endpoint for on-demand revalidation.
-// [What is ISR?](https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration)
-REVALIDATE_TOKEN=some_random_string
+It is used by the Incremental Static Regeneration endpoint for on-demand revalidation. ([What is ISR?](https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration))
+`REVALIDATE_TOKEN=some_random_string`
 
-// Your graphql endpoint url used by the NextJs server (to build pages)
-GRAPHQL_ENDPOINT="http://localhost:7000/graphql"
+Your graphql endpoint url used by the NextJs server (to build pages)
+Note that this can be equal to the NEXT_PUBLIC_GRAPHQL_ENDPOINT
+`GRAPHQL_ENDPOINT="http://localhost:7000/graphql`
 
 ### Public
-// Your graphql endpoint url used by the client
-NEXT_PUBLIC_GRAPHQL_ENDPOINT="https://example.com/graphql"
+Your graphql endpoint url used by the client
+`NEXT_PUBLIC_GRAPHQL_ENDPOINT="https://example.com/graphql"`
 
 ## Customizing colors
 1. Add a scss file in src/styles/colorscheme/your_colors.scss directory.
 2. Change src/styles/colorscheme.scss content to: @forward 'colorscheme/your_colors';
 
-$color-a // Primary
-$color-c // Only used in the editor you can use the same color as $color-d
-$color-d // Accent
-$color-error // Error
-$color-warning // Not used yet
-$color-success // Success
+- $color-a // Primary
+- $color-c // Only used in the editor you can use the same color as $color-d
+- $color-d // Accent
+- $color-error // Error
+- $color-warning // Not used yet
+- $color-success // Success
 
-## Preview
-
+## Previews
+### Index
 ![index](./images/index.png)
+
+### An article
 ![article](./images/article.png)
+
+### Editor index
 ![editor index](./images/editor_index.png)
+
+### Editor
 ![editor](./images/editor.png)
+
+### Login (2FA using TOTP)
 ![login](./images/login.png)
