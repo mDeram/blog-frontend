@@ -31,14 +31,17 @@ npm run gen
 ## Environment variables
 ### Private
 It is used by the Incremental Static Regeneration endpoint for on-demand revalidation. ([What is ISR?](https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration))
+
 `REVALIDATE_TOKEN=some_random_string`
 
 Your graphql endpoint url used by the NextJs server (to build pages)
 Note that this can be equal to the NEXT_PUBLIC_GRAPHQL_ENDPOINT
+
 `GRAPHQL_ENDPOINT="http://localhost:7000/graphql`
 
 ### Public
 Your graphql endpoint url used by the client
+
 `NEXT_PUBLIC_GRAPHQL_ENDPOINT="https://example.com/graphql"`
 
 ## Customizing colors
