@@ -5,6 +5,7 @@ import Layout from "../../components/Layout";
 import createUrqlClient from "../../utils/createUrqlClient";
 import router from "next/router";
 import { pushNotificationError } from "../../utils/defaultNotifications";
+import styles from "../../styles/LoginForm.module.scss";
 
 const Login: React.FC = () => {
     const [inputs, setInputs] = useState({ username: "", password: "", authToken: "" });
@@ -37,7 +38,7 @@ const Login: React.FC = () => {
 
     return (
         <Layout title="mDeram's blog editor">
-            <form onSubmit={handleSubmit}>
+            <form className={styles.loginForm} onSubmit={handleSubmit}>
                 <input
                     id="username"
                     name="username"
@@ -62,8 +63,7 @@ const Login: React.FC = () => {
                     onChange={handleChange}
                     placeholder="Auth Token"
                 />
-
-                <button disabled={isSubmitting}>Submit</button>
+                <button className="btn-inverted" disabled={isSubmitting}>Submit</button>
             </form>
         </Layout>
     )

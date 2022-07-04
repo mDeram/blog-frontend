@@ -27,7 +27,7 @@ svg.action:hover {
     cursor: pointer;
 }
 
-.btn {
+@mixin button {
     border: none;
     background-color: $color-a;
     font-size: 1rem;
@@ -36,7 +36,31 @@ svg.action:hover {
     color: $color-d
 }
 
-.btn:hover {
+@mixin button-hover {
     cursor: pointer;
     background-color: darken($color-a, 10%);
+}
+
+.btn {
+    @include button;
+}
+
+.btn:hover {
+    @include button-hover;
+}
+
+.btn-inverted {
+    @include button;
+    background-color: $color-d;
+    color: $color-a
+}
+
+.btn-inverted:hover {
+    @include button-hover;
+    background-color: darken($color-d, 10%);
+}
+
+input {
+    padding: 0.5rem;
+    font-size: 15px;
 }
