@@ -6,10 +6,20 @@
     left: 50%;
     transform: translate(-50%, -50%);
 
+}
+.popup > div {
+    padding: 1rem;
+    border-radius: 3px;
+    background-color: black;
+}
+
+.discardPopup {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
     div {
-        padding: 10px 15px 10px 15px;
-        margin-bottom: 15px;
-        border-radius: 3px;
-        background-color: black;
+        display: flex;
+        gap: 1rem;
     }
 }

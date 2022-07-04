@@ -69,7 +69,7 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({
         if (!isEqual(article, savedArticle))
             return <Discard />
 
-        return <Link href="/editor"><a>Back</a></Link>
+        return <Link href="/editor"><a className="btn">Back</a></Link>
     }
 
     return (
@@ -85,7 +85,7 @@ const ArticleEditor: React.FC<ArticleEditorProps> = ({
             </div>
             <div className={styles.optionBar}>
                 {renderDiscardOrBack()}
-                <button onClick={handleSave}>Save</button>
+                <button className="btn" onClick={handleSave}>Save</button>
             </div>
         </LocalArticle>
     );

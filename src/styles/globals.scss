@@ -4,8 +4,6 @@ html,
 body {
     padding: 0;
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     overflow-wrap: break-word;
 }
 
@@ -19,10 +17,26 @@ a {
 }
 
 * {
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     box-sizing: border-box;
     margin: 0px;
 }
 
 svg.action:hover {
     cursor: pointer;
+}
+
+.btn {
+    border: none;
+    background-color: $color-a;
+    font-size: 1rem;
+    padding: 0.4rem 1rem;
+    border-radius: 3px;
+    color: $color-d
+}
+
+.btn:hover {
+    cursor: pointer;
+    background-color: darken($color-a, 10%);
 }

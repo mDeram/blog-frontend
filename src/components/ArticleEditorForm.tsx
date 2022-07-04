@@ -43,37 +43,53 @@ const ArticleEditorForm: React.FC<ArticleEditorFormProps> = ({
 
     return (
         <div className={styles.editorForm}>
-            <div className={styles.editorSlug}>
-                <input
-                    type="text"
-                    id="title"
-                    value={title}
-                    onChange={e => handleChange({ title: e.target.value })}
-                    placeholder="Title"
-                />
-                <p>slug: {slug}</p>
+            <div>
+                <label htmlFor="title">Title</label>
+                <div className={styles.editorSlug}>
+                    <input
+                        name="title"
+                        type="text"
+                        id="title"
+                        value={title}
+                        onChange={e => handleChange({ title: e.target.value })}
+                        placeholder="Title"
+                    />
+                    <p>slug: {slug}</p>
+                </div>
             </div>
-            <input
-                type="text"
-                id="author"
-                value={author}
-                onChange={e => handleChange({ author: e.target.value })}
-                placeholder="Author"
-            />
-            <textarea
-                id="description"
-                value={description}
-                onChange={e => handleChange({ description: e.target.value })}
-                placeholder="Write down a short description about your article"
-            />
-            <textarea
-                className={styles.editorMarkdown}
-                id="markdown"
-                value={markdown}
-                onChange={e => handleChange({ markdown: e.target.value })}
-                onKeyDown={e => tabToSpace(e)}
-                placeholder="Write down your article using markdown"
-            />
+            <div>
+                <label htmlFor="author">Author</label>
+                <input
+                    name="author"
+                    type="text"
+                    id="author"
+                    value={author}
+                    onChange={e => handleChange({ author: e.target.value })}
+                    placeholder="Author"
+                />
+            </div>
+            <div>
+                <label htmlFor="description">Description</label>
+                <textarea
+                    name="description"
+                    id="description"
+                    value={description}
+                    onChange={e => handleChange({ description: e.target.value })}
+                    placeholder="Write down a short description about your article"
+                />
+            </div>
+            <div>
+                <label htmlFor="markdown">Article</label>
+                <textarea
+                    name="markdown"
+                    className={styles.editorMarkdown}
+                    id="markdown"
+                    value={markdown}
+                    onChange={e => handleChange({ markdown: e.target.value })}
+                    onKeyDown={e => tabToSpace(e)}
+                    placeholder="Write down your article using markdown"
+                />
+            </div>
         </div>
     )
 }

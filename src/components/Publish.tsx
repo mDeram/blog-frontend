@@ -1,6 +1,7 @@
 import { pushNotificationError, pushNotificationSuccess } from "../utils/defaultNotifications";
 import { useSetPublishedArticleMutation } from "../generated/graphql";
 import { HiOutlineEye, HiOutlineEyeOff } from "react-icons/hi";
+import { useState } from "react";
 
 interface PublishProps {
     id: number;
@@ -12,6 +13,7 @@ const Publish: React.FC<PublishProps> = ({
     published,
 }) => {
     const [,setPublished] = useSetPublishedArticleMutation();
+    const [hover, setHover] = useState(false);
 
     async function handlePublish(value: boolean) {
         const result = await setPublished({ id, published: value });
@@ -27,13 +29,21 @@ const Publish: React.FC<PublishProps> = ({
         }
     }
 
+    function handleClick () {
+        handlePublish(!published);
+    }
+
+    const props = published
+        ? { title: "Unpublish", Icon: HiOutlineEye,    HoverIcon: HiOutlineEyeOff }
+        : { title: "Publish",   Icon: HiOutlineEyeOff, HoverIcon: HiOutlineEye };
+
     return (
-        <>
-            {published
-                ? <HiOutlineEye className="action" onClick={_ => handlePublish(false)} title="Unpublish"/>
-                : <HiOutlineEyeOff className="action" onClick={_ => handlePublish(true)} title="Publish"/>
+        <div className="action" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+            {!hover
+                ? <props.Icon className="action" onClick={handleClick} title={props.title}/>
+                : <props.HoverIcon className="action" onClick={handleClick} title={props.title}/>
             }
-        </>
+        </div>
     )
 }
 

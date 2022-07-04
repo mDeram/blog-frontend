@@ -11,8 +11,10 @@
 .optionBar {
     background-color: $color-c;
     width: 100%;
-    height: 3rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     display: flex;
+    gap: 1rem;
     justify-content: center;
     align-items: center;
     position: fixed;
@@ -24,17 +26,38 @@
     margin-top: 40px;
     display: flex;
     flex-direction: column;
-    row-gap: 2rem;
+    gap: 2rem;
+    margin-bottom: 3rem;
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+
+    input {
+        width: 50%;
+        padding: 0.5rem;
+        font-size: 15px;
+    }
+
+    textarea {
+        width: 100%;
+        padding: 0.5rem;
+        font-size: 15px;
+        resize: vertical;
+    }
 }
 
 .editorSlug {
     display: flex;
+    align-items: center;
+
     p {
         margin-left: 2rem;
     }
 }
 
 .editorMarkdown {
-    flex-grow: 1;
-    resize: vertical;
+    height: 20rem;
 }
